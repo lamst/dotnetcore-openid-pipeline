@@ -13,7 +13,7 @@ jobs:
     vmImage: ${{ parameters.vmImage }}
   steps:
   - task: DotNetCoreInstaller@0
-    displayName: 'Use .NET Core sdk 2.0.3'
+    displayName: 'Use .NET Core SDK 2.0.3'
     inputs:
       version: 2.0.3
 

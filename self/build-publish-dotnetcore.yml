@@ -1,12 +1,24 @@
 # File build-publish-dotnetcore.yml
 
 parameters:
-  name: ''
-  project: ''
-  buildConfiguration: ''
-  artifactName: ''
-  poolName: ''
-  srcRepo: ''
+- name: name
+  type: string
+  default: ""
+- name: project
+  type: string
+  default: ""
+- name: buildConfiguration
+  type: string
+  default: "Release"
+- name: artifactName
+  type: string
+  default: "drop"
+- name: poolName
+  type: string
+  default: "Azure Pipelines"
+- name: srcRepo
+  type: object
+  default: self
   
 jobs:
 - job: ${{ parameters.name }}

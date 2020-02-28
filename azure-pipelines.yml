@@ -20,8 +20,9 @@ trigger:
 jobs:
 - template: self/build-publish-dotnetcore.yml
   parameters:
-    name: BuildWebApp
+    name: "BuildWebApp"
     project: "**/TodoListWebApp/*.csproj"
     buildConfiguration: "Debug"
     artifactName: "TodoList.WebApp"
     poolName: "Self Hosted Windows 2019"
+    srcRepo: DevOps2019Git
