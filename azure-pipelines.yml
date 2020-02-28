@@ -1,3 +1,10 @@
+resources:
+  repositories:
+  - repository: DevOps2019Git
+    type: git
+    name: TodoList/TodoList
+    endpoint: DevOps2019Server
+  
 trigger:
   batch: true
   branches:
@@ -18,4 +25,3 @@ jobs:
     buildConfiguration: "Debug"
     artifactName: "TodoList.WebApp"
     poolName: "Self Hosted Windows 2019"
-    repo: "git://lamst:4sureOkayC0mmander@mcw-dev.southeastasia.cloudapp.azure.com/DefaultCollection/TodoList/_git/TodoList"
