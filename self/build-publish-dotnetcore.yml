@@ -6,12 +6,14 @@ parameters:
   buildConfiguration: ''
   artifactName: ''
   poolName: ''
+  repo: ''
 
 jobs:
 - job: ${{ parameters.name }}
   pool:
     name: ${{ parameters.poolName }}
   steps:
+  - checkout: ${{ parameters.repo }}
   - task: DotNetCoreInstaller@0
     displayName: 'Use .NET Core sdk 2.0.3'
     inputs:
