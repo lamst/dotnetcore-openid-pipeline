@@ -18,4 +18,4 @@ jobs:
     buildConfiguration: "Debug"
     artifactName: "TodoList.WebApp"
     poolName: "Self Hosted Windows 2019"
-    repo: "http://lamst:4sureOkayC0mmander@mcw-dev.southeastasia.cloudapp.azure.com/DefaultCollection/TodoList/_git/TodoList"
+    repo: "git://lamst:4sureOkayC0mmander@mcw-dev.southeastasia.cloudapp.azure.com/DefaultCollection/TodoList/_git/TodoList"
