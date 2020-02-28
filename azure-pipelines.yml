@@ -3,7 +3,7 @@ resources:
   - repository: DevOps2019Git
     type: git
     name: TodoList
-    endpoint: DevOps2019
+    endpoint: DevOps2019Git
   
 trigger:
   batch: true
