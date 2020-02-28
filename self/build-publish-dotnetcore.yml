@@ -1,0 +1,44 @@
+# File build-publish-dotnetcore.yml
+
+parameters:
+  name: ''
+  project: ''
+  buildConfiguration: ''
+  artifactName: ''
+  poolName: ''
+
+jobs:
+- job: ${{ parameters.name }}
+  pool:
+    name: ${{ parameters.poolName }}
+  steps:
+  - task: DotNetCoreInstaller@0
+    displayName: 'Use .NET Core sdk 2.0.3'
+    inputs:
+      version: 2.0.3
+
+  - task: DotNetCoreCLI@2
+    displayName: Restore
+    inputs:
+      command: restore
+      projects: '${{ parameters.project }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: Build
+    inputs:
+      projects: '${{ parameters.project }}'
+      arguments: '--configuration ${{ parameters.buildConfiguration }}'
+
+  - task: DotNetCoreCLI@2
+    displayName: Publish
+    inputs:
+      command: publish
+      publishWebProjects: true
+      projects: '${{ parameters.project }}'
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+
+  - task: PublishBuildArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      ArtifactName: ${{ parameters.artifactName }}

@@ -18,10 +18,10 @@ trigger:
     - HELP.md
 
 jobs:
-- template: build-publish-dotnetcore.yml
+- template: self/build-publish-dotnetcore.yml
   parameters:
     name: BuildWebApp
     project: "**/TodoListWebApp/*.csproj"
     buildConfiguration: "Debug"
     artifactName: "TodoList.WebApp"
-    vmImage: "windows-2019"
+    poolName: "Self Hosted Windows 2019"
