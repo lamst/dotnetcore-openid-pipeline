@@ -2,7 +2,7 @@ resources:
   repositories:
   - repository: DevOps2019Git
     type: git
-    name: TodoList
+    name: TodoList/TodoList
     endpoint: DevOps2019Git
   
 trigger:
