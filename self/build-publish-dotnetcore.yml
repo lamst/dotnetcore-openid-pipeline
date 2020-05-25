@@ -22,8 +22,7 @@ parameters:
   
 jobs:
 - job: ${{ parameters.name }}
-  pool:
-    name: ${{ parameters.poolName }}
+  pool: ${{ parameters.poolName }}
   steps:
   - checkout: ${{ parameters.srcRepo }}
   - task: DotNetCoreInstaller@0
