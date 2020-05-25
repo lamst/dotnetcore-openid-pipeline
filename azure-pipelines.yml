@@ -25,4 +25,4 @@ jobs:
     buildConfiguration: "Debug"
     artifactName: "TodoList.WebApp"
     poolName: "Self Hosted Windows 2019"
-    srcRepo: DevOps2019Git
+    srcRepo: app-maker
