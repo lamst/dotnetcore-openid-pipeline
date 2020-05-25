@@ -13,16 +13,16 @@ parameters:
 - name: artifactName
   type: string
   default: "drop"
-- name: poolName
-  type: string
-  default: "Azure Pipelines"
+- name: pool
+  type: object
+  default: null
 - name: srcRepo
   type: object
   default: self
   
 jobs:
 - job: ${{ parameters.name }}
-  pool: ${{ parameters.poolName }}
+  pool: ${{ parameters.pool }}
   steps:
   - checkout: ${{ parameters.srcRepo }}
   - task: DotNetCoreInstaller@0

@@ -24,5 +24,6 @@ jobs:
     project: "**/TodoListWebApp/*.csproj"
     buildConfiguration: "Debug"
     artifactName: "TodoList.WebApp"
-    poolName: "Self Hosted Windows 2019"
+    pool: 
+      name: "Self Hosted Windows 2019"
     srcRepo: app-maker
