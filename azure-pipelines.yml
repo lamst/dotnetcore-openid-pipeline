@@ -1,9 +1,9 @@
 resources:
   repositories:
-  - repository: DevOps2019Git
+  - repository: app-maker
     type: git
     name: TodoList/TodoList
-    endpoint: DevOps2019Server
+    endpoint: app-maker
   
 trigger:
   batch: true
