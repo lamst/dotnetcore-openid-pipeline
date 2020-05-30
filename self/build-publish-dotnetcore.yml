@@ -24,6 +24,8 @@ parameters:
 jobs:
 - job: ${{ parameters.name }}
   pool: ${{ parameters.pool }}
+  workspace:
+    clean: all
   steps:
   - checkout: ${{ parameters.srcRepo }}
   - task: DotNetCoreInstaller@0

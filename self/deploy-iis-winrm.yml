@@ -39,6 +39,8 @@ jobs:
 - deployment: ${{ parameters.name }}
   displayName: ${{ parameters.displayName }}
   pool: ${{ parameters.pool }}
+  workspace:
+    clean: all
   dependsOn: ${{ parameters.dependsOn }}
   environment: ${{ parameters.environment }}
   strategy:
