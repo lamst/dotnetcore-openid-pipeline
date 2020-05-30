@@ -1,9 +1,9 @@
 resources:
   repositories:
-  - repository: DevOps2019Git
+  - repository: DevOps2019
     type: git
     name: TodoList/TodoList
-    endpoint: DevOps2019Git
+    endpoint: DevOps2019
 
 variables:
 - name: buildJobName
@@ -28,5 +28,5 @@ jobs:
   pool:
     name: 'Self Hosted Windows 2019'
   steps:
-  - checkout: DevOps2019Git
+  - checkout: DevOps2019
     
