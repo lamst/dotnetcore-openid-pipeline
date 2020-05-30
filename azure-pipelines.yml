@@ -1,9 +1,15 @@
 resources:
   repositories:
-  - repository: app-maker
+  - repository: DevOps2019Git
     type: git
     name: TodoList/TodoList
-    endpoint: app-maker
+    endpoint: DevOps2019Git
+
+variables:
+- name: buildJobName
+  value: 'BuildWebApp'
+- name: artifactName
+  value: 'todoList.WebApp'
   
 trigger:
   batch: true
@@ -18,12 +24,9 @@ trigger:
     - HELP.md
 
 jobs:
-- template: self/build-publish-dotnetcore.yml
-  parameters:
-    name: "BuildWebApp"
-    project: "**/TodoListWebApp/*.csproj"
-    buildConfiguration: "Debug"
-    artifactName: "TodoList.WebApp"
-    pool: 
-      name: "Self Hosted Windows 2019"
-    srcRepo: app-maker
+- job: $(buildJobName)
+  pool:
+    name: 'Self Hosted Windows 2019'
+  steps:
+  - checkout: DevOps2019Git
+    
