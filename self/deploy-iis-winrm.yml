@@ -8,9 +8,6 @@ parameters:
 # The pool to use for the job(s) to run
 - name: pool
   type: object
-# The name of the job this job depends on. 
-- name: dependsOn
-  type: string
 # Target environment name and optionally a resource name to record the deployment history; 
 # format: <environment-name>.<resource-name>
 - name: environment
