@@ -48,7 +48,7 @@ jobs:
       deploy:
         steps:
         - task: DownloadPipelineArtifact@2
-          input:
+          inputs:
             artifact: ${{ parameters.artifactName }}
 
         - template: 'windows-copy-file.yml'
