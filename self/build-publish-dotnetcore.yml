@@ -57,5 +57,5 @@ jobs:
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
     inputs:
-      PathToPublish: $(Build.ArtifactStagingDirectory)
-      ArtifactName: ${{ parameters.artifactName }}
+      targetPath: $(Pipeline.Workspace)
+      artifactName: ${{ parameters.artifactName }}
