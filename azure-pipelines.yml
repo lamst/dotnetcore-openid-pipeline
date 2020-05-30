@@ -25,6 +25,8 @@ jobs:
 - job: ${{ variables.buildJobName }}
   pool:
     name: 'Self Hosted Windows 2019'
+  workspace:
+    clean: all
   steps:
   - checkout: self
   - checkout: DevOps2019
