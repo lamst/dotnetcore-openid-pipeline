@@ -38,6 +38,7 @@ stages:
 
 - stage: 'DeployToPreProd'
   dependsOn: 'Build'
+  condition: succeeded()
   jobs:
   - template: "self/deploy-iis-winrm.yml"
     parameters:

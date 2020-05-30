@@ -46,11 +46,4 @@ jobs:
         - task: DownloadPipelineArtifact@2
           inputs:
             artifact: ${{ parameters.artifactName }}
-
-        - template: 'windows-copy-file.yml'
-          parameters:
-            machineNames: ${{ parameters.machineNames }}
-            sourcePath: $(Pipeline.Workspace)/${{ parameters.artifactName }}
-            adminUserName: ${{ parameters.adminUserName }}
-            adminPassword: ${{ parameters.adminPassword }}
-            targetPath: ${{ parameters.targetPath }}
+            patterns: '*.zip'
