@@ -10,6 +10,8 @@ variables:
   value: 'BuildWebApp'
 - name: artifactName
   value: 'TodoList.WebApp'
+- name: buildConfiguration
+  value: 'Release'
   
 trigger:
   batch: true
@@ -28,7 +30,7 @@ stages:
     parameters:
       name: ${{ variables.buildJobName }}
       project: "**/TodoListWebApp/*.csproj"
-      buildConfiguration: $(BuildConfiguration)
+      buildConfiguration: ${{ variables.buildConfiguration }}
       artifactName: ${{ variables.artifactName }}
       pool: 
         name: "Self Hosted Windows 2019"
