@@ -10,6 +10,7 @@ parameters:
 - name: buildConfiguration
   type: string
   default: "Release"
+# The name of the artifact
 - name: artifactName
   type: string
   default: "drop"
@@ -50,8 +51,8 @@ jobs:
       projects: '${{ parameters.project }}'
       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
 
-  - task: PublishBuildArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
     inputs:
-      PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+      PathtoPublish: $(Build.ArtifactStagingDirectory)
       ArtifactName: ${{ parameters.artifactName }}

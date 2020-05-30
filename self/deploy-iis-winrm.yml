@@ -1,0 +1,58 @@
+parameters:
+- name: name
+  type: string
+  default: "DeployToIIS"
+- name: displayName
+  type: string
+  default: "Deploy Web App"
+# The pool to use for the job(s) to run
+- name: pool
+  type: object
+# The name of the job this job depends on. 
+- name: dependsOn
+  type: string
+# Target environment name and optionally a resource name to record the deployment history; 
+# format: <environment-name>.<resource-name>
+- name: environment
+  type: string
+  default: "Development"
+# The name of the artifact to deploy
+- name: artifactName
+  type: string
+# Comma separated list of machine IP addresses or FQDNs
+- name: machineNames
+  type: string
+# Administrator's login of the target machines.
+- name: adminUserName
+  type: string
+# Provide the administrator's password of the target machines. The best practice is to create a variable 
+# in the Build or Release definition, and mark it as 'Secret' to secure it, and then use it here, 
+# like '$(adminPassword)'.
+- name: adminPassword
+  type: string
+# Local Path on the target machines or an accessible UNC path for copying the files from the source 
+# like d:\fabrikam or \\fabrikam\Web.
+- name: targetPath
+  type: string
+
+jobs:
+- deployment: ${{ parameters.name }}
+  displayName: ${{ parameters.displayName }}
+  pool: ${{ parameters.pool }}
+  dependsOn: ${{ parameters.dependsOn }}
+  environment: ${{ parameters.environment }}
+  strategy:
+    runOnce: 
+      deploy:
+        steps:
+        - task: DownloadPipelineArtifact@2
+          input:
+            artifact: ${{ parameters.artifactName }}
+
+        - template: 'windows-copy-file.yml'
+          parameters:
+            machineNames: ${{ parameters.machineNames }}
+            sourcePath: $(Pipeline.Workspace)/${{ parameters.artifactName }}
+            adminUserName: ${{ parameters.adminUserName }}
+            adminPassword: ${{ parameters.adminPassword }}
+            targetPath: ${{ parameters.targetPath }}

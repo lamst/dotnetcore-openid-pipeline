@@ -21,13 +21,30 @@ trigger:
     - README.md
     - HELP.md
 
-jobs:
-- job: ${{ variables.buildJobName }}
-  pool:
-    name: 'Self Hosted Windows 2019'
-  workspace:
-    clean: all
-  steps:
-  - checkout: self
-  - checkout: DevOps2019
-    
+stages:
+- stage: 'Build'
+  jobs:
+  - template: "self/build-publish-dotnetcore.yml"
+  parameters:
+    name: ${{ variables.buildJobName }}
+    project: "**/TodoListWebApp/*.csproj"
+    buildConfiguration: $(BuildConfiguration)
+    artifactName: ${{ variables.artifactName }}
+    pool: 
+      name: "Self Hosted Windows 2019"
+    srcRepo: DevOps2019
+
+- stage: 'DeployToPreProd'
+  jobs:
+  - template: "self/deploy-iis-winrm.yml"
+  parameters:
+    name: 'DeployToIIS'
+    dependsOn: ${{ variables.buildJobName }}
+    pool:
+      name: 'Self Hosted Windows 2019'
+    environment: 'Staging'
+    machineNames: $(WebServers)
+    artifactName: ${{ variables.artifactName }}
+    adminUserName: $(AdminUsername)
+    adminPassword: $(AdminPassword)
+    targetPath: 'C:\WebDeploy'
