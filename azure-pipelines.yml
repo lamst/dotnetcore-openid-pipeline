@@ -26,5 +26,6 @@ jobs:
   pool:
     name: 'Self Hosted Windows 2019'
   steps:
+  - checkout: self
   - checkout: DevOps2019
     
