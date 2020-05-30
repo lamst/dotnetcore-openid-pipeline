@@ -37,11 +37,11 @@ stages:
       srcRepo: DevOps2019
 
 - stage: 'DeployToPreProd'
+  dependsOn: 'Build'
   jobs:
   - template: "self/deploy-iis-winrm.yml"
     parameters:
       name: 'DeployToIIS'
-      dependsOn: ${{ variables.buildJobName }}
       pool:
         name: 'Self Hosted Windows 2019'
       environment: 'Staging'

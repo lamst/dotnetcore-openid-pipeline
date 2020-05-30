@@ -41,7 +41,6 @@ jobs:
   pool: ${{ parameters.pool }}
   workspace:
     clean: all
-  dependsOn: ${{ parameters.dependsOn }}
   environment: ${{ parameters.environment }}
   strategy:
     runOnce: 
