@@ -17,8 +17,6 @@ trigger:
     include:
     - master
   paths:
-    include:
-    - TodoListWebApp/*
     exclude:
     - README.md
     - HELP.md
