@@ -43,7 +43,5 @@ jobs:
     runOnce: 
       deploy:
         steps:
-        - download: none
-        - task: DownloadPipelineArtifact@2
-          inputs:
-            artifact: ${{ parameters.artifactName }}
+        - download: current
+          artifact: ${{ parameters.artifactName }}
