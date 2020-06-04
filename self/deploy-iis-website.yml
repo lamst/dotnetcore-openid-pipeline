@@ -33,12 +33,12 @@ parameters:
 # The account under which an application pool's worker process runs. Select one of the predefined security accounts.
 - name: appPoolIdentity
   type: string
-  default: 'applicationPoolIdentity'
+  default: 'ApplicationPoolIdentity'
   values:
-  - 'applicationPoolIdentity'
-  - 'localService'
-  - 'localSystem'
-  - 'networkService'
+  - 'ApplicationPoolIdentity'
+  - 'LocalService'
+  - 'LocalSystem'
+  - 'NetworkService'
 # The name of the IIS website
 - name: websiteName
   type: string
