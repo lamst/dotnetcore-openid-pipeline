@@ -4,6 +4,7 @@ resources:
     type: git
     name: TodoList/TodoList
     endpoint: DevOps2019
+    ref: iis
 
 variables:
 - name: buildJobName
@@ -42,7 +43,7 @@ stages:
   jobs:
   - template: "self/deploy-iis-website.yml"
     parameters:
-      name: 'DeployToIIS'
+      name: 'DeployWeAppToIIS'
       pool:
         name: 'Self Hosted Windows 2019'
       environment: 
