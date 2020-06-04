@@ -51,4 +51,4 @@ stages:
       appPoolName: 'TodoListAppPool'
       websiteName: 'TodoList'
       websitePhysicalPath: '%SystemDrive%\TodoList'
-      bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"80","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
+      bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
