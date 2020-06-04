@@ -46,9 +46,13 @@ parameters:
 # or in a remote directory, or on a network share, like C:\Fabrikam or \\ContentShare\Fabrikam.
 - name: websitePhysicalPath
   type: string
+# The bindings JSON array for the website. e.g. {"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"","sslThumbprint":"","sniFlag":false}]}
 - name: bindings
   type: string
   default: ''
+# File path to the artifact to deploy
+- name: package
+  type: string
 
 jobs:
 - deployment: ${{ parameters.name }}
@@ -74,3 +78,11 @@ jobs:
             ${{ if gt(length(parameters.bindings), 0) }}:
               addBinding: true
               bindings: ${{ parameters.bindings }}
+
+        - task: IISWebAppDeploymentOnMachineGroup@0
+          displayName: 'Deploy IIS Website'
+          inputs:
+            websiteName: ${{ parameters.websiteName }}
+            package: ${{ parameters.package }}
+            removeAdditionalFilesFlag: true
+            takeAppOfflineFlag: true
