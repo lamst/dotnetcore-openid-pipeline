@@ -45,7 +45,9 @@ stages:
       name: 'DeployToIIS'
       pool:
         name: 'Self Hosted Windows 2019'
-      environment: 'Staging'
+      environment: 
+        name: 'Staging'
+        resourceName: 'mcw-dev2'
       appPoolName: 'TodoListAppPool'
       websiteName: 'TodoList'
       websitePhysicalPath: '%SystemDrive%\TodoList'
