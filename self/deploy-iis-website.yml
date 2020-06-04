@@ -66,9 +66,9 @@ jobs:
             actionIISWebsite: 'CreateOrUpdateWebsite'
             websiteName: ${{ parameters.websiteName }}
             websitePhysicalPath: ${{ parameters.websitePhysicalPath }}
-          - ${{ if gt(length(parameters.bindings), 0) }}:
+          ${{ if gt(length(parameters.bindings), 0) }}:
             addBinding: true
-          - ${{ if gt(length(parameters.bindings), 0) }}:
+          ${{ if gt(length(parameters.bindings), 0) }}:
             bindings: ${{ parameters.bindings }}
             createOrUpdateAppPoolForWebsite: true
             appPoolNameForWebsite: ${{ parameters.appPoolName }}
