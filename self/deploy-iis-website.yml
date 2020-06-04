@@ -71,7 +71,7 @@ jobs:
             dotNetVersionForWebsite: ${{ parameters.dotNetVersion }}
             pipelineModeForWebsite: ${{ parameters.pipelineMode }}
             appPoolIdentityForWebsite: ${{ parameters.appPoolIdentity }}
-          ${{ if gt(length(parameters.bindings), 0) }}:
+          - ${{ if gt(length(parameters.bindings), 0) }}:
             addBinding: true
-          ${{ if gt(length(parameters.bindings), 0) }}:
+          - ${{ if gt(length(parameters.bindings), 0) }}:
             bindings: ${{ parameters.bindings }}
