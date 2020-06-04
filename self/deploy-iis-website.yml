@@ -1,0 +1,77 @@
+parameters:
+- name: name
+  type: string
+  default: "DeployToIIS"
+- name: displayName
+  type: string
+  default: "Deploy Web App"
+- name: pool
+  type: object
+- name: environment
+  type: object
+# The name of the IIS application pool
+- name: appPoolName
+  type: string
+# The version of the .NET Framework that is loaded by the application pool.
+# If the applications assigned to this application pool do not contain managed code, 
+# then select the 'No Managed Code' option from the list.
+- name: dotNetVersion
+  type: string
+  default: 'v4.0'
+  values:
+  - 'v4.0'
+  - 'v2.0'
+  - 'No Managed Code'
+# The managed pipeline mode that specifies how IIS processes requests for managed content. 
+# Use classic mode only when the applications in the application pool cannot run in the Integrated mode.
+- name: pipelineMode
+  type: string
+  default: 'Integrated'
+  values:
+  - 'Integrated'
+  - 'Classic'
+# The account under which an application pool's worker process runs. Select one of the predefined security accounts.
+- name: appPoolIdentity
+  type: string
+  default: 'applicationPoolIdentity'
+  values:
+  - 'applicationPoolIdentity'
+  - 'localService'
+  - 'localSystem'
+  - 'networkService'
+# The name of the IIS website
+- name: websiteName
+  type: string
+# The physical path where the website content will be stored. The content can reside on the local Computer, 
+# or in a remote directory, or on a network share, like C:\Fabrikam or \\ContentShare\Fabrikam.
+- name: websitePhysicalPath
+  type: string
+- name: bindings
+  type: string
+  default: ''
+
+jobs:
+- deployment: ${{ parameters.name }}
+  displayName: ${{ parameters.displayName }}
+  pool: ${{ parameters.pool }}
+  environment: ${{ parameters.environment }}
+  strategy:
+    runOnce: 
+      deploy:
+        steps:
+        - task: IISWebAppManagementOnMachineGroup@0
+          displayName: 'Manage IIS Website'
+          inputs:
+            IISDeploymentType: 'iISWebsite'
+            actionIISWebsite: 'CreateOrUpdateWebsite'
+            websiteName: ${{ parameters.websiteName }}
+            websitePhysicalPath: ${{ parameters.websitePhysicalPath }}
+            ${{ if gt(length(${{ parameters.bindings }}), 0) }}
+            addBinding: true
+            ${{ if gt(length(${{ parameters.bindings }}), 0) }}
+            bindings: ${{ parameters.bindings }}
+            createOrUpdateAppPoolForWebsite: true
+            appPoolNameForWebsite: ${{ parameters.appPoolName }}
+            dotNetVersionForWebsite: ${{ parameters.dotNetVersion }}
+            pipelineModeForWebsite: ${{ parameters.pipelineMode }}
+            appPoolIdentityForWebsite: ${{ parameters.appPoolIdentity }}

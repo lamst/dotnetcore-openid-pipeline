@@ -36,18 +36,17 @@ stages:
         name: "Self Hosted Windows 2019"
       srcRepo: TodoList
 
-- stage: 'DeployToPreProd'
+- stage: 'DeployToStaging'
   dependsOn: 'Build'
   condition: succeeded()
   jobs:
-  - template: "self/deploy-iis-winrm.yml"
+  - template: "self/deploy-iis-website.yml"
     parameters:
       name: 'DeployToIIS'
       pool:
         name: 'Self Hosted Windows 2019'
       environment: 'Staging'
-      machineNames: $(WebServers)
-      artifactName: ${{ variables.artifactName }}
-      adminUserName: $(AdminUsername)
-      adminPassword: $(AdminPassword)
-      targetPath: 'C:\WebDeploy'
+      appPoolName: 'TodoListAppPool'
+      websiteName: 'TodoList'
+      websitePhysicalPath: '%SystemDrive%\TodoList'
+      bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
