@@ -51,7 +51,7 @@ parameters:
   default: ''
 
 variables:
-  bindings: ${{ parameters.bindings }}
+- bindings: ${{ parameters.bindings }}
 
 jobs:
 - deployment: ${{ parameters.name }}
