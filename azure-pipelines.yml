@@ -13,6 +13,12 @@ variables:
   value: 'TodoList.WebApp'
 - name: buildConfiguration
   value: 'Release'
+- name: buildMajorVersion
+  value: '1'
+- name: buildMinorVersion
+  value: '0'
+- name: buildPatchVersion
+  value: '1'
   
 trigger:
   batch: true
@@ -24,6 +30,7 @@ trigger:
     - README.md
     - HELP.md
 
+name: $(variables.buildMajorVersion).$(variables.buildMinorVersion).$(variables.buildPatchVersion).$(Build.BuildNumber)
 stages:
 - stage: 'Build'
   jobs:
