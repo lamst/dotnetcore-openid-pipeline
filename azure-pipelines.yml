@@ -1,6 +1,6 @@
 resources:
   repositories:
-  - repository: DevOps2019
+  - repository: TodoList
     type: git
     name: TodoList/TodoList
     endpoint: DevOps2019
@@ -34,7 +34,7 @@ stages:
       artifactName: ${{ variables.artifactName }}
       pool: 
         name: "Self Hosted Windows 2019"
-      srcRepo: DevOps2019
+      srcRepo: TodoList
 
 - stage: 'DeployToPreProd'
   dependsOn: 'Build'
