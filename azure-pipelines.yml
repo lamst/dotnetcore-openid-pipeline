@@ -30,7 +30,6 @@ trigger:
     - README.md
     - HELP.md
 
-name: $(variables.buildMajorVersion).$(variables.buildMinorVersion).$(variables.buildPatchVersion).$(Build.BuildNumber)
 stages:
 - stage: 'Build'
   jobs:
