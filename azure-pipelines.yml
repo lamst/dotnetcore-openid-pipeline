@@ -1,4 +1,4 @@
-name: $(Build.DefinitionName)-$(My.buildMajorVersion).$(Rev:r)
+name: $(Build.DefinitionName)-$(Build.MajorVersion).$(Rev:r)
 resources:
   repositories:
   - repository: TodoList
@@ -14,12 +14,6 @@ variables:
   value: 'TodoList.WebApp'
 - name: buildConfiguration
   value: 'Release'
-- name: buildMajorVersion
-  value: '1'
-- name: buildMinorVersion
-  value: '0'
-- name: buildPatchVersion
-  value: '1'
   
 trigger:
   batch: true
