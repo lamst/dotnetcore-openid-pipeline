@@ -1,3 +1,4 @@
+name: $(Build.DefinitionName)-$(My.buildMajorVersion).$(Rev:r)
 resources:
   repositories:
   - repository: TodoList
