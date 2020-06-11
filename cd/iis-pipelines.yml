@@ -11,9 +11,6 @@ resources:
     source: \remote\ci\todo-webapp
     project: CloudWorkshopWinRM
     version: 1.0.1.2
-    trigger:
-      branches:
-      - master
 
 trigger:
   batch: true
