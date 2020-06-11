@@ -1,4 +1,3 @@
-name: $(Build.DefinitionName).$(Rev:r)
 variables:
 - name: artifactName
   value: 'TodoList.WebApp'
@@ -8,7 +7,7 @@ variables:
 resources:
   pipelines:
   - pipeline: todo-webapp
-    source: ci/todo-webapp
+    source: \remote\ci\todo-webapp
     project: CloudWorkshopWinRM
     version: $(TodoList.WebApp.Version)
     trigger:
