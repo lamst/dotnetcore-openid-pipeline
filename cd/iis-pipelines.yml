@@ -1,0 +1,60 @@
+name: $(Build.DefinitionName)-$(Build.MajorVersion).$(Build.MinorVersion).$(Build.PatchVersion).$(Rev:r)
+resources:
+  repositories:
+  - repository: TodoList
+    type: git
+    name: TodoList/TodoList
+    endpoint: DevOps2019
+    ref: iis
+
+variables:
+- name: buildJobName
+  value: 'BuildWebApp'
+- name: artifactName
+  value: 'TodoList.WebApp'
+- name: buildConfiguration
+  value: 'Release'
+  
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - HELP.md
+    include:
+    - cd/*
+    - self/*
+
+stages:
+- stage: 'Build'
+  jobs:
+  - template: "../self/build-publish-dotnetcore.yml"
+    parameters:
+      name: ${{ variables.buildJobName }}
+      project: "**/TodoListWebApp/*.csproj"
+      buildConfiguration: ${{ variables.buildConfiguration }}
+      artifactName: ${{ variables.artifactName }}
+      pool: 
+        name: "Self Hosted Windows 2019"
+      srcRepo: TodoList
+
+- stage: 'Test'
+  dependsOn: 'Build'
+  condition: succeeded()
+  jobs:
+  - template: "../self/deploy-iis-website.yml"
+    parameters:
+      name: 'DeployWeAppToIIS'
+      pool:
+        name: 'Self Hosted Windows 2019'
+      environment: 
+        name: 'Test'
+        resourceName: 'mcw-dev2'
+      appPoolName: 'TodoListAppPool'
+      websiteName: 'TodoList'
+      websitePhysicalPath: '%SystemDrive%\TodoList'
+      bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
+      package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/**/*.zip'
