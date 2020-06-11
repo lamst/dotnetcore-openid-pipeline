@@ -24,6 +24,9 @@ trigger:
     exclude:
     - README.md
     - HELP.md
+    include:
+    - ci/*
+    - self/*
 
 stages:
 - stage: 'Build'
@@ -38,7 +41,7 @@ stages:
         name: "Self Hosted Windows 2019"
       srcRepo: TodoList
 
-- stage: 'DeployToTest'
+- stage: 'Test'
   dependsOn: 'Build'
   condition: succeeded()
   jobs:
