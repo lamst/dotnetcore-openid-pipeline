@@ -45,7 +45,7 @@ stages:
     environment: 'Test'
     machineNames: $(WebServers)
     sourcePath: $(Pipeline.Workspace)/$(artifactName)
-    adminUserName: '.\lamst'
+    adminUserName: $(AdminUsername)
     adminPassword: $(AdminPassword)
     targetPath: 'C:\WebDeploy'
     

@@ -38,7 +38,7 @@ stages:
         name: "Self Hosted Windows 2019"
       srcRepo: TodoList
 
-- stage: 'DeployToStaging'
+- stage: 'DeployToTest'
   dependsOn: 'Build'
   condition: succeeded()
   jobs:
@@ -48,7 +48,7 @@ stages:
       pool:
         name: 'Self Hosted Windows 2019'
       environment: 
-        name: 'Staging'
+        name: 'Test'
         resourceName: 'mcw-dev2'
       appPoolName: 'TodoListAppPool'
       websiteName: 'TodoList'
