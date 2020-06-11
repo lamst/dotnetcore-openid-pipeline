@@ -2,15 +2,13 @@ name: $(Build.DefinitionName).$(Rev:r)
 variables:
 - name: artifactName
   value: 'TodoList.WebApp'
-- name: todoWebAppVersion
-  value: 1.0.1.2
   
 resources:
   pipelines:
   - pipeline: todo-webapp
     source: ci/todo-webapp
     project: CloudWorkshopWinRM
-    version: ${{ variables.todoWebAppVersion }}
+    version: $(TodoList.WebApp.Version)
     trigger:
       branches:
       - master
