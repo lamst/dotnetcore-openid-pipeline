@@ -1,3 +1,4 @@
+name: $(Build.DefinitionName).$(Rev:r)
 variables:
 - name: artifactName
   value: 'TodoList.WebApp'
