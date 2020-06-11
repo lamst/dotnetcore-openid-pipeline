@@ -79,7 +79,7 @@ jobs:
           ${{ if gt(length(parameters.artifactName), 0) }}:
             artifact: ${{ parameters.artifactName }}
           ${{ if gt(length(parameters.artifactPattern), 0) }}:
-            patterns: ${{ parameters.artifactPattern }}
+            patterns: ${{ parameters.artifactPatterns }}
 
         - task: IISWebAppManagementOnMachineGroup@0
           displayName: 'Manage IIS Website'
