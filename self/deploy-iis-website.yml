@@ -78,7 +78,7 @@ jobs:
         - download: ${{ parameters.pipeline }}
           ${{ if gt(length(parameters.artifactName), 0) }}:
             artifact: ${{ parameters.artifactName }}
-          ${{ if gt(length(parameters.artifactPattern), 0) }}:
+          ${{ if gt(length(parameters.artifactPatterns), 0) }}:
             patterns: ${{ parameters.artifactPatterns }}
 
         - task: IISWebAppManagementOnMachineGroup@0
