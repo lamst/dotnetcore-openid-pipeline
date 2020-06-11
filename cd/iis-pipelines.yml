@@ -2,6 +2,8 @@ name: $(Build.DefinitionName).$(Rev:r)
 variables:
 - name: artifactName
   value: 'TodoList.WebApp'
+- name: artifactPatterns
+  value: '**/*.zip'
   
 resources:
   pipelines:
@@ -44,5 +46,5 @@ stages:
       bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
       pipeline: todo-webapp
       artifactName: ${{ variables.artifactName }}
-      artifactPattern: '**/*.zip'
-      package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/**/*.zip'
+      artifactPatterns: ${{ variables.artifactPatterns }}
+      package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'

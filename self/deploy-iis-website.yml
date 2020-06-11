@@ -62,7 +62,7 @@ parameters:
   type: string
   default: ''
 # The pattern of the artifact(s) to download
-- name: artifactPattern
+- name: artifactPatterns
   type: string
   default: ''
 
@@ -79,7 +79,7 @@ jobs:
           ${{ if gt(length(parameters.artifactName), 0) }}:
             artifact: ${{ parameters.artifactName }}
           ${{ if gt(length(parameters.artifactPattern), 0) }}:
-            pattern: ${{ parameters.artifactPattern }}
+            patterns: ${{ parameters.artifactPattern }}
 
         - task: IISWebAppManagementOnMachineGroup@0
           displayName: 'Manage IIS Website'
