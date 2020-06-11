@@ -1,20 +1,20 @@
-name: $(Build.DefinitionName)-$(Build.MajorVersion).$(Build.MinorVersion).$(Build.PatchVersion).$(Rev:r)
-resources:
-  repositories:
-  - repository: TodoList
-    type: git
-    name: TodoList/TodoList
-    endpoint: DevOps2019
-    ref: iis
-
+name: $(Build.DefinitionName).$(Rev:r)
 variables:
-- name: buildJobName
-  value: 'BuildWebApp'
 - name: artifactName
   value: 'TodoList.WebApp'
-- name: buildConfiguration
-  value: 'Release'
+- name: todoWebAppVersion
+  value: 1.0.1.2
   
+resources:
+  pipelines:
+  - pipeline: todo-webapp
+    source: ci/todo-webapp
+    project: CloudWorkshopWinRM
+    version: ${{ variables.todoWebAppVersion }}
+    trigger:
+      branches:
+      - master
+
 trigger:
   batch: true
   branches:
@@ -29,25 +29,12 @@ trigger:
     - self/*
 
 stages:
-- stage: 'Build'
-  jobs:
-  - template: "../self/build-publish-dotnetcore.yml"
-    parameters:
-      name: ${{ variables.buildJobName }}
-      project: "**/TodoListWebApp/*.csproj"
-      buildConfiguration: ${{ variables.buildConfiguration }}
-      artifactName: ${{ variables.artifactName }}
-      pool: 
-        name: "Self Hosted Windows 2019"
-      srcRepo: TodoList
-
-- stage: 'Test'
-  dependsOn: 'Build'
-  condition: succeeded()
+- stage: 'Staging'
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
-      name: 'DeployWeAppToIIS'
+      name: 'DeployTodoWebAppToIIS'
+      displayName: 'Deploy Todo List WebApp'
       pool:
         name: 'Self Hosted Windows 2019'
       environment: 
@@ -57,4 +44,7 @@ stages:
       websiteName: 'TodoList'
       websitePhysicalPath: '%SystemDrive%\TodoList'
       bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
+      pipeline: todo-webapp
+      artifactName: ${{ variables.artifactName }}
+      artifactPattern: '**/*.zip'
       package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/**/*.zip'
