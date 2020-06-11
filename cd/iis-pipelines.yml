@@ -3,15 +3,13 @@ variables:
   value: 'TodoList.WebApp'
 - name: artifactPatterns
   value: '**/*.zip'
-- name: todoWebAppVersion
-  value: '1.0.1.2'
   
 resources:
   pipelines:
   - pipeline: todo-webapp
     source: \remote\ci\todo-webapp
     project: CloudWorkshopWinRM
-    version: ${{ variables.todoWebAppVersion }}
+    version: 1.0.1.2
     trigger:
       branches:
       - master
