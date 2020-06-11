@@ -67,7 +67,7 @@ jobs:
     runOnce: 
       deploy:
         steps:
-        ${{ if gt(length(parameters.artifactName), 0) }}
+        - ${{ if gt(length(parameters.artifactName), 0) }}
           - download: current
             artifact: ${{ parameters.artifactName }}
 
