@@ -53,8 +53,16 @@ parameters:
 # File path to the artifact to deploy
 - name: package
   type: string
+# The identifier of the pipeline resource
+- name: pipeline
+  type: object
+  default: current
 # The name of the artifact to download
 - name: artifactName
+  type: string
+  default: ''
+# The pattern of the artifact(s) to download
+- name: artifactPattern
   type: string
   default: ''
 
@@ -67,9 +75,11 @@ jobs:
     runOnce: 
       deploy:
         steps:
-        - ${{ if gt(length(parameters.artifactName), 0) }}
-          - download: current
+        - download: ${{ parameters.pipeline }}
+          ${{ if gt(length(parameters.artifactName), 0) }}:
             artifact: ${{ parameters.artifactName }}
+          ${{ if gt(length(parameters.artifactPattern), 0) }}:
+            pattern: ${{ parameters.artifactPattern }}
 
         - task: IISWebAppManagementOnMachineGroup@0
           displayName: 'Manage IIS Website'
