@@ -1,0 +1,51 @@
+resources:
+  repositories:
+  - repository: DevOps2019
+    type: git
+    name: TodoList/TodoList
+    endpoint: DevOps2019
+
+variables:
+- name: buildJobName
+  value: 'BuildWebApp'
+- name: artifactName
+  value: 'todoList.WebApp'
+  
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - HELP.md
+
+stages:
+- stage: 'Build'
+  jobs:
+  - template: "../self/build-publish-dotnetcore.yml"
+  parameters:
+    name: ${{ variables.buildJobName }}
+    project: "**/TodoListWebApp/*.csproj"
+    buildConfiguration: $(BuildConfiguration)
+    artifactName: ${{ variables.artifactName }}
+    pool: 
+      name: "Self Hosted Windows 2019"
+    srcRepo: DevOps2019
+
+- stage: 'DeployToTest'
+  jobs:
+  - template: "../self/deploy-iis-winrm.yml"
+  parameters:
+    name: 'DeployToIIS'
+    dependsOn: ${{ variables.buildJobName }}
+    pool:
+      name: 'Self Hosted Windows 2019'
+    environment: 'Test'
+    machineNames: $(WebServers)
+    sourcePath: $(Pipeline.Workspace)/$(artifactName)
+    adminUserName: '.\lamst'
+    adminPassword: $(AdminPassword)
+    targetPath: 'C:\WebDeploy'
+    

@@ -28,7 +28,7 @@ trigger:
 stages:
 - stage: 'Build'
   jobs:
-  - template: "self/build-publish-dotnetcore.yml"
+  - template: "../self/build-publish-dotnetcore.yml"
     parameters:
       name: ${{ variables.buildJobName }}
       project: "**/TodoListWebApp/*.csproj"
@@ -42,7 +42,7 @@ stages:
   dependsOn: 'Build'
   condition: succeeded()
   jobs:
-  - template: "self/deploy-iis-website.yml"
+  - template: "../self/deploy-iis-website.yml"
     parameters:
       name: 'DeployWeAppToIIS'
       pool:

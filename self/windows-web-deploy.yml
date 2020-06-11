@@ -1,0 +1,61 @@
+parameters:
+- name: displayName
+  type: string
+  default: 'Deploy IIS App'
+# Comma separated list of machine IP addresses or FQDNs
+- name: machineNames
+  type: string
+# Administrator's login of the target machines.
+- name: adminUserName
+  type: string
+# Provide the administrator's password of the target machines. The best practice is to create a variable 
+# in the Build or Release definition, and mark it as 'Secret' to secure it, and then use it here, 
+# like '$(adminPassword)'.
+- name: adminPassword
+  type: string
+# Location of the Web Deploy (MSDeploy) zip file on the target machine(s) or on a UNC path, 
+# like \\BudgetIT\WebDeploy\WebDeployPackage.zip. The UNC path should be accessible to the 
+# machine's administrator account. Environment variables are also supported, 
+# like $env:windir, $env:systemroot, $env:windir\FabrikamFibre\Web.
+- name: webDeployPackage
+  type: string
+# Specify parameters here to override the ones in the Web Deploy zip file and in the Parameter file. 
+# To override more than one parameter use line separator, e.g.,
+# name="IIS Web Application Name",value="Fabrikam"
+# name="ConnectionString",value="Server=localhost;Database=Fabrikam;"
+- name: overrideParams
+  type: string
+# Provide the name of the website for deploying the Web project to
+- name: websiteName
+  type: string
+# True to delete files on the IIS Web App that have no matching files in the Web App zip package.
+# Default: False
+- name: removeAdditionalFiles
+  type: boolean
+  default: true
+# True to prevent files in the App_Data folder from being deployed to the IIS Web App. Default: False
+- name: excludeFilesFromAppData
+  type: boolean
+  default: false
+# True to take the IIS Web App offline by placing an app_offline.html file in the root directory of 
+# the Web App before the sync operation begins. The file will be removed after the sync operation 
+# completes successfully.
+- name: takeAppOffline
+  type: boolean
+  default: false
+
+
+steps:
+- task: ms-vscs-rm.iiswebapp.iiswebappdeploy-task.IISWebAppDeploy@1
+  displayName: 'Deploy IIS App'
+  inputs:
+    machinesList: ${{ parameters.machineNames }}
+    AdminUserName: ${{ parameters.adminUserName }}
+    AdminPassword: ${{ parameters.adminPassword }}
+    WebDeployPackage: ${{ parameters.webDeployPackage }}
+    OverRideParams: ${{ parameters.overrideParams }}
+    WebsiteName: ${{ parameters.websiteName }}
+    RemoveAdditionalFiles: ${{ parameters.removeAdditionalFiles }}
+    ExcludeFilesFromAppData: ${{ parameters.excludeFilesFromAppData }}
+    TakeAppOffline: ${{ parameters.takeAppOffline }}
+    AdditionalArguments: '-enableRule:AppOffline'
