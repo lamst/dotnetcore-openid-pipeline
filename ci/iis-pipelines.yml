@@ -1,4 +1,4 @@
-name: $(Build.DefinitionName)-$(Build.MajorVersion).$(Build.MinorVersion).$(Build.PatchVersion).$(Rev:r)
+name: $(Build.MajorVersion).$(Build.MinorVersion).$(Build.PatchVersion).$(Rev:r)
 resources:
   repositories:
   - repository: TodoList
