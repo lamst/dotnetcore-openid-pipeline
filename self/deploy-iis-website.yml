@@ -53,6 +53,10 @@ parameters:
 # File path to the artifact to deploy
 - name: package
   type: string
+# The name of the artifact to download
+- name: artifactName
+  type: string
+  default: ''
 
 jobs:
 - deployment: ${{ parameters.name }}
@@ -63,6 +67,10 @@ jobs:
     runOnce: 
       deploy:
         steps:
+        ${{ if gt(length(parameters.artifactName), 0) }}
+          - download: current
+            artifact: ${{ parameters.artifactName }}
+
         - task: IISWebAppManagementOnMachineGroup@0
           displayName: 'Manage IIS Website'
           inputs:
