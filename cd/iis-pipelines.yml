@@ -46,4 +46,4 @@ stages:
       pipeline: todo-webapp
       artifactName: ${{ variables.artifactName }}
       artifactPatterns: ${{ variables.artifactPatterns }}
-      package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
+      package: '$(Pipeline.Workspace)/**/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
