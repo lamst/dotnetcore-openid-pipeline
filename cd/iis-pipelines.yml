@@ -10,7 +10,7 @@ resources:
   - pipeline: todo-webapp
     source: \remote\ci\todo-webapp
     project: CloudWorkshopWinRM
-    version: 1.0.1.7
+    version: 1.0.1.11
 
 trigger:
   batch: true
@@ -54,7 +54,7 @@ stages:
     value: 'http://localhost:8080'
   - name: ASPNETCORE_ENVIRONMENT
     value: 'Production'
-  - name: Logging.IncludeScopes
+  - name: LoggingIncludeScopes
     value: 'True'
   jobs:
   - template: "../self/deploy-iis-website.yml"
