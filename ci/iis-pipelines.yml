@@ -45,8 +45,6 @@ stages:
   dependsOn: 'Build'
   condition: succeeded()
   variables:
-  - name: AzureAd.TodoListBaseAddress
-    value: 'http://localhost:8080'
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
@@ -61,4 +59,3 @@ stages:
       websitePhysicalPath: '%SystemDrive%\TodoList'
       bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
       package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/**/*.zip'
-      jsonFiles: '**/appsettings.Development.json'

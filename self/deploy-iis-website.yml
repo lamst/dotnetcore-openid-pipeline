@@ -109,6 +109,11 @@ jobs:
               addBinding: true
               bindings: ${{ parameters.bindings }}
 
+        - ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace XML Tokens'
+            targetFiles: '**/*.config'
+
         - task: IISWebAppDeploymentOnMachineGroup@0
           displayName: 'Deploy IIS Website'
           inputs:

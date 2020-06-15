@@ -54,6 +54,8 @@ stages:
     value: 'http://localhost:8080'
   - name: ASPNETCORE_ENVIRONMENT
     value: 'Production'
+  - name: Logging.IncludeScopes
+    value: 'True'
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
