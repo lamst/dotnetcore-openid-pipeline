@@ -52,6 +52,8 @@ stages:
   variables:
   - name: AzureAd.TodoListBaseAddress
     value: 'http://localhost:8080'
+  - name: ASPNETCORE_ENVIRONMENT
+    value: 'Production'
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
@@ -70,4 +72,4 @@ stages:
       artifactName: ${{ variables.artifactName }}
       artifactPatterns: ${{ variables.artifactPatterns }}
       package: '$(Pipeline.Workspace)/**/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
-      jsonFiles: '**/appsettings.Development.json'
+      xmlVariableSubstitution: true
