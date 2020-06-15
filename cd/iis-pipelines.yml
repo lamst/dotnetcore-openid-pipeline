@@ -47,6 +47,8 @@ stages:
       package: '$(Pipeline.Workspace)/**/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
 
 - stage: 'Staging'
+  dependsOn: 'Test'
+  condition: succeeded()
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
