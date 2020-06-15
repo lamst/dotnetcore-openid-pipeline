@@ -52,8 +52,6 @@ stages:
   variables:
   - name: Logging.IncludeScopes
     value: true
-  - name: ENVIRONMENT
-    value: 'Production'
   - name: LoggingIncludeScopes
     value: 'True'
   jobs:
