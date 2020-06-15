@@ -103,6 +103,14 @@ jobs:
               archiveFilePatterns: ${{ parameters.package }}
               destinationFolder: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
 
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace XML Tokens'
+            inputs:
+              rootDirectory: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+              verbosity: detailed
+              targetFiles: |
+                **/*.config
+
         - task: IISWebAppManagementOnMachineGroup@0
           displayName: 'Manage IIS Website'
           inputs:
@@ -129,11 +137,3 @@ jobs:
             XmlVariableSubstitution: ${{ parameters.xmlVariableSubstitution }}
             ${{ if gt(length(parameters.jsonFiles), 0) }}:
               jsonFiles: ${{ parameters.jsonFiles }}
-
-        - ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
-          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace XML Tokens'
-            inputs:
-              ${{ if gt(length(parameters.rootDirectory), 0) }}:
-                rootDirectory: ${{ parameters.rootDirectory }}
-              verbosity: detailed
