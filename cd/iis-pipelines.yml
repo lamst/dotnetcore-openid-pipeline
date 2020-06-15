@@ -75,4 +75,4 @@ stages:
       artifactPatterns: ${{ variables.artifactPatterns }}
       package: '$(Pipeline.Workspace)/**/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
       xmlVariableSubstitution: true
-      rootDirectory: '%SystemDrive%\TodoList\'
+      rootDirectory: 'C:\TodoList\'
