@@ -76,6 +76,9 @@ parameters:
 - name: jsonFiles
   type: string
   default: ''
+- name: rootDirectory
+  type: string
+  default: ''
 
 
 jobs:
@@ -124,7 +127,8 @@ jobs:
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace XML Tokens'
             inputs:
-              rootDirectory: ${{ parameters.websitePhysicalPath }}
+              ${{ if gt(length(parameters.rootDirectory), 0) }}:
+                rootDirectory: ${{ parameters.rootDirectory }}
               verbosity: detailed
               targetFiles: |
                 **/*.config
