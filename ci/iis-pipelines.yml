@@ -44,7 +44,6 @@ stages:
 - stage: 'Test'
   dependsOn: 'Build'
   condition: succeeded()
-  variables:
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
