@@ -96,6 +96,13 @@ jobs:
           ${{ if gt(length(parameters.artifactPatterns), 0) }}:
             patterns: ${{ parameters.artifactPatterns }}
 
+        - ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
+          - task: ExtractFiles@1
+            displayName: 'Extract Artifact'
+            inputs:
+              archiveFilePatterns: ${{ parameters.artifactPatterns }}
+              destinationFolder: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+
         - task: IISWebAppManagementOnMachineGroup@0
           displayName: 'Manage IIS Website'
           inputs:
