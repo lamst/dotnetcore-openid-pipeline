@@ -10,7 +10,7 @@ resources:
   - pipeline: todo-webapp
     source: \remote\ci\todo-webapp
     project: CloudWorkshopWinRM
-    version: 1.0.1.12
+    version: 1.0.1.17
 
 trigger:
   batch: true
@@ -50,9 +50,9 @@ stages:
   dependsOn: 'Test'
   condition: succeeded()
   variables:
-  - name: AzureAd.TodoListBaseAddress
-    value: 'http://localhost:8080'
-  - name: ASPNETCORE_ENVIRONMENT
+  - name: Logging.IncludeScopes
+    value: true
+  - name: ENVIRONMENT
     value: 'Production'
   - name: LoggingIncludeScopes
     value: 'True'
@@ -75,4 +75,5 @@ stages:
       artifactPatterns: ${{ variables.artifactPatterns }}
       package: '$(Pipeline.Workspace)/**/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
       xmlVariableSubstitution: true
-      rootDirectory: '$env:SystemDrive\TodoList'
+      jsonFiles: |
+        **/appsettings.json

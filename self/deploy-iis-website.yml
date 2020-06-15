@@ -76,9 +76,6 @@ parameters:
 - name: jsonFiles
   type: string
   default: ''
-- name: rootDirectory
-  type: string
-  default: ''
 
 jobs:
 - deployment: ${{ parameters.name }}
