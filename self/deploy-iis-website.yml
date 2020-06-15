@@ -65,6 +65,9 @@ parameters:
 - name: artifactPatterns
   type: string
   default: ''
+- name: xmlVariableSubstitution
+  type: boolean
+  default: false
 
 jobs:
 - deployment: ${{ parameters.name }}
@@ -104,3 +107,4 @@ jobs:
             package: ${{ parameters.package }}
             removeAdditionalFilesFlag: true
             takeAppOfflineFlag: true
+            XmlVariableSubstitution: ${{ parameters.xmlVariableSubstitution }}
