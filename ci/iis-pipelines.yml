@@ -61,4 +61,4 @@ stages:
       websitePhysicalPath: '%SystemDrive%\TodoList'
       bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
       package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/**/*.zip'
-      jsonFiles: 'appsettings.Development.json'
+      jsonFiles: '**/appsettings.Development.json'
