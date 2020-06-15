@@ -126,4 +126,6 @@ jobs:
             inputs:
               rootDirectory: ${{ parameters.websitePhysicalPath }}
               verbosity: detailed
-              targetFiles: '**/*.config'
+              targetFiles: |
+                **/*.config
+                web.config
