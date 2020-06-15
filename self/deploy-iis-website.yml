@@ -109,12 +109,6 @@ jobs:
               addBinding: true
               bindings: ${{ parameters.bindings }}
 
-        - ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
-          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
-            displayName: 'Replace XML Tokens'
-            inputs:
-              targetFiles: '**/*.config'
-
         - task: IISWebAppDeploymentOnMachineGroup@0
           displayName: 'Deploy IIS Website'
           inputs:
@@ -125,3 +119,10 @@ jobs:
             XmlVariableSubstitution: ${{ parameters.xmlVariableSubstitution }}
             ${{ if gt(length(parameters.jsonFiles), 0) }}:
               jsonFiles: ${{ parameters.jsonFiles }}
+
+        - ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
+          - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+            displayName: 'Replace XML Tokens'
+            inputs:
+              rootDirectory: ${{ parameters.websitePhysicalPath }}
+              targetFiles: '**/*.config'
