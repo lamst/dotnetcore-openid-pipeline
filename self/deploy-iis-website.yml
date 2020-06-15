@@ -65,9 +65,18 @@ parameters:
 - name: artifactPatterns
   type: string
   default: ''
+# True to substitute variables in *.config file(s). 'key' or 'name' entries in the appSettings, applicationSettings, and 
+# 'connectionStrings' sections of any config file and parameters.xml
 - name: xmlVariableSubstitution
   type: boolean
   default: false
+# New line separated list of JSON files to substitute the variable values. Files names are to be provided relative
+# to the root folder. To substitute JSON variables that are nested or hierarchical, specify them using JSONPath 
+# expressions.
+- name: jsonFiles
+  type: string
+  default: ''
+
 
 jobs:
 - deployment: ${{ parameters.name }}
@@ -108,3 +117,5 @@ jobs:
             removeAdditionalFilesFlag: true
             takeAppOfflineFlag: true
             XmlVariableSubstitution: ${{ parameters.xmlVariableSubstitution }}
+            ${{ if gt(length(parameters.jsonFiles), 0) }}:
+              jsonFiles: ${{ parameters.jsonFiles }}
