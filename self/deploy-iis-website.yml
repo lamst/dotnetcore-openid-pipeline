@@ -125,4 +125,5 @@ jobs:
             displayName: 'Replace XML Tokens'
             inputs:
               rootDirectory: ${{ parameters.websitePhysicalPath }}
+              verbosity: detailed
               targetFiles: '**/*.config'
