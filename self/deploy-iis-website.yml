@@ -80,7 +80,6 @@ parameters:
   type: string
   default: ''
 
-
 jobs:
 - deployment: ${{ parameters.name }}
   displayName: ${{ parameters.displayName }}
@@ -102,6 +101,7 @@ jobs:
             inputs:
               archiveFilePatterns: ${{ parameters.package }}
               destinationFolder: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+              cleanDestinationFolder: true
 
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace XML Tokens'
@@ -110,6 +110,15 @@ jobs:
               verbosity: detailed
               targetFiles: |
                 **/*.config
+
+          - task: ArchiveFiles@2
+            displayName: 'Archive Artifact'
+            inputs:
+              rootFolderOrFile: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+              includeRootFolder: false
+              archiveType: zip
+              archiveFile: '$(Pipeline.Workspace)/${{ parameters.artifactName }}.zip'
+              replaceExistingArchive: true
 
         - task: IISWebAppManagementOnMachineGroup@0
           displayName: 'Manage IIS Website'
@@ -131,7 +140,10 @@ jobs:
           displayName: 'Deploy IIS Website'
           inputs:
             websiteName: ${{ parameters.websiteName }}
-            package: ${{ parameters.package }}
+            ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
+              package: '$(Pipeline.Workspace)/${{ parameters.artifactName }}.zip'
+            ${{ if ne(parameters.xmlVariableSubstitution, true) }}:
+              package: ${{ parameters.package }}
             removeAdditionalFilesFlag: true
             takeAppOfflineFlag: true
             XmlVariableSubstitution: ${{ parameters.xmlVariableSubstitution }}
