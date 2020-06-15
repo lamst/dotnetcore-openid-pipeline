@@ -130,5 +130,3 @@ jobs:
               ${{ if gt(length(parameters.rootDirectory), 0) }}:
                 rootDirectory: ${{ parameters.rootDirectory }}
               verbosity: detailed
-              targetFiles: |
-                **/*.config
