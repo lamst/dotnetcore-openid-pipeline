@@ -26,11 +26,11 @@ trigger:
     - self/*
 
 stages:
-- stage: 'Staging'
+- stage: 'Test'
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
-      name: 'DeployTodoWebAppToIIS'
+      name: 'DeployTodoWebAppToDev2'
       displayName: 'Deploy Todo List WebApp'
       pool:
         name: 'Self Hosted Windows 2019'
@@ -41,6 +41,26 @@ stages:
       websiteName: 'TodoList'
       websitePhysicalPath: '%SystemDrive%\TodoList'
       bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev2","sslThumbprint":"","sniFlag":false}]}'
+      pipeline: todo-webapp
+      artifactName: ${{ variables.artifactName }}
+      artifactPatterns: ${{ variables.artifactPatterns }}
+      package: '$(Pipeline.Workspace)/**/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
+
+- stage: 'Staging'
+  jobs:
+  - template: "../self/deploy-iis-website.yml"
+    parameters:
+      name: 'DeployTodoWebAppToDev4'
+      displayName: 'Deploy Todo List WebApp'
+      pool:
+        name: 'Self Hosted Windows 2019'
+      environment: 
+        name: 'Staging'
+        resourceName: 'mcw-dev4'
+      appPoolName: 'TodoListAppPool'
+      websiteName: 'TodoList'
+      websitePhysicalPath: '%SystemDrive%\TodoList'
+      bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"mcw-dev4","sslThumbprint":"","sniFlag":false}]}'
       pipeline: todo-webapp
       artifactName: ${{ variables.artifactName }}
       artifactPatterns: ${{ variables.artifactPatterns }}
