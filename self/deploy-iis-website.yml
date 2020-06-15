@@ -100,7 +100,7 @@ jobs:
           - task: ExtractFiles@1
             displayName: 'Extract Artifact'
             inputs:
-              archiveFilePatterns: ${{ parameters.artifactPatterns }}
+              archiveFilePatterns: ${{ parameters.package }}
               destinationFolder: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
 
         - task: IISWebAppManagementOnMachineGroup@0
