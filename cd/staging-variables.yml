@@ -1,0 +1,7 @@
+variables:
+- name: Logging.IncludeScopes
+  value: true
+  readonly: true
+- name: LoggingIncludeScopes
+  value: 'True'
+  readonly: true

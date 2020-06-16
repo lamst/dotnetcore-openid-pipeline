@@ -50,10 +50,7 @@ stages:
   dependsOn: 'Test'
   condition: succeeded()
   variables:
-  - name: Logging.IncludeScopes
-    value: true
-  - name: LoggingIncludeScopes
-    value: 'True'
+  - template: staging-variables.yml
   jobs:
   - template: "../self/deploy-iis-website.yml"
     parameters:
