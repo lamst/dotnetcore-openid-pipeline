@@ -1,6 +1,6 @@
 variables:
-- name: Logging.IncludeScopes
-  value: true
+- name: Logging.LogLevel.Default
+  value: 'Debug'
   readonly: true
 - name: LoggingIncludeScopes
   value: 'True'
