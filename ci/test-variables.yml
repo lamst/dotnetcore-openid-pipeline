@@ -1,0 +1,4 @@
+variables:
+- name: LoggingIncludeScopes
+  value: 'True'
+  readonly: true
