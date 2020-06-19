@@ -93,7 +93,6 @@ jobs:
       deploy:
         steps:
         - download: ${{ parameters.pipeline }}
-          downloadPath: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}'
           ${{ if gt(length(parameters.artifactName), 0) }}:
             artifact: ${{ parameters.artifactName }}
           ${{ if gt(length(parameters.artifactPatterns), 0) }}:
@@ -101,27 +100,27 @@ jobs:
 
         - ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
           - task: ExtractFiles@1
-            displayName: 'Extract Artifact'
+            displayName: 'Extract Artifacts'
             inputs:
               archiveFilePatterns: ${{ parameters.package }}
-              destinationFolder: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+              destinationFolder: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}'
               cleanDestinationFolder: true
 
           - task: qetza.replacetokens.replacetokens-task.replacetokens@3
             displayName: 'Replace XML Tokens'
             inputs:
-              rootDirectory: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+              rootDirectory: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}'
               verbosity: detailed
               targetFiles: |
                 **/*.config
 
           - task: ArchiveFiles@2
-            displayName: 'Archive Artifact'
+            displayName: 'Archive Artifacts'
             inputs:
-              rootFolderOrFile: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+              rootFolderOrFile: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}'
               includeRootFolder: false
               archiveType: zip
-              archiveFile: '$(Pipeline.Workspace)/${{ parameters.artifactName }}.zip'
+              archiveFile: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}.zip'
               replaceExistingArchive: true
 
         - task: IISWebAppManagementOnMachineGroup@0
@@ -145,7 +144,7 @@ jobs:
           inputs:
             websiteName: ${{ parameters.websiteName }}
             ${{ if eq(parameters.xmlVariableSubstitution, true) }}:
-              package: '$(Pipeline.Workspace)/${{ parameters.artifactName }}.zip'
+              package: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}.zip'
             ${{ if ne(parameters.xmlVariableSubstitution, true) }}:
               package: ${{ parameters.package }}
             removeAdditionalFilesFlag: true
