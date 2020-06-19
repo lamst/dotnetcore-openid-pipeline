@@ -1,12 +1,16 @@
 parameters:
+# The name of the deployment job
 - name: name
   type: string
   default: "DeployToIIS"
+# The name to be displayed in the UI
 - name: displayName
   type: string
   default: "Deploy Web App"
+# The pool to run the job(s)
 - name: pool
   type: object
+# An object that describes the environment to deploy the artifact
 - name: environment
   type: object
 # The name of the IIS application pool
@@ -53,7 +57,7 @@ parameters:
 # File path to the artifact to deploy
 - name: package
   type: string
-# The identifier of the pipeline resource
+# The identifier of the pipeline resource. Default is the current pipeline
 - name: pipeline
   type: object
   default: current
@@ -89,6 +93,7 @@ jobs:
       deploy:
         steps:
         - download: ${{ parameters.pipeline }}
+          downloadPath: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}'
           ${{ if gt(length(parameters.artifactName), 0) }}:
             artifact: ${{ parameters.artifactName }}
           ${{ if gt(length(parameters.artifactPatterns), 0) }}:
