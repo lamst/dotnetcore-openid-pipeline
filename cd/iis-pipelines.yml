@@ -47,6 +47,7 @@ stages:
       artifactName: ${{ variables.artifactName }}
       artifactPatterns: ${{ variables.artifactPatterns }}
       package: '$(Pipeline.Workspace)/**/${{ variables.artifactName }}/${{ variables.artifactPatterns }}'
+      xmlVariableSubstitution: true
 
 - stage: 'Staging'
   dependsOn: 'Test'
