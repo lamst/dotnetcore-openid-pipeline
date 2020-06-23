@@ -47,7 +47,7 @@ jobs:
         package.json
       TargetFolder: '$(Build.ArtifactStagingDirectory)'
 
-  - task: PublishPipelineArtifacts@1
+  - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
     inputs:
       targetPath: $(Build.ArtifactStagingDirectory)
