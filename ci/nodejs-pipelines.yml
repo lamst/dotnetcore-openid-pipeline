@@ -1,0 +1,38 @@
+name: $(Build.MajorVersion).$(Build.MinorVersion).$(Build.PatchVersion).$(Rev:r)
+resources:
+  repositories:
+  - repository: TodoListService
+    type: github
+    name: lamst/active-directory-javascript-nodejs-webapi-v2
+    endpoint: GitHub
+    ref: todo
+
+variables:
+- name: buildJobName
+  value: 'BuildService'
+- name: artifactName
+  value: 'TodoList.Service'
+
+trigger:
+  batch: true
+  branches:
+    include:
+    - master
+  paths:
+    exclude:
+    - README.md
+    - HELP.md
+    include:
+    - ci/*
+    - self/build-publish-nodejs.yml
+
+stages:
+- stage: 'Build'
+  jobs:
+  - template: "../self/build-publish-nodejs.yml"
+    parameters:
+      name: ${{ variables.buildJobName }}
+      artifactName: ${{ variables.artifactName }}
+      pool: 
+        name: "Self Hosted Windows 2019"
+      srcRepo: TodoListService

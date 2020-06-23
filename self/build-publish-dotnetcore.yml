@@ -17,6 +17,7 @@ parameters:
 - name: pool
   type: object
   default: null
+# The repository containing the source codes to build
 - name: srcRepo
   type: object
   default: self

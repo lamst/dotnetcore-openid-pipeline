@@ -1,0 +1,54 @@
+# File build-publish-nodejs.yml
+
+parameters:
+# The name of the job
+- name: name
+  type: string
+  default: "Build & Publish Node.js"
+# The pool to run the job
+- name: pool
+  type: object
+  default: null
+# The repository containing the source codes to build
+- name: srcRepo
+  type: object
+  default: self
+# The version of Node.js to use
+- name: nodeVersionSpec
+  type: string
+  default: '8.9.4'
+# The name of the artifact
+- name: artifactName
+  type: string
+  default: "drop"
+
+jobs:
+- job: ${{ parameters.name }}
+  pool: ${{ parameters.pool }}
+  workspace:
+    clean: all
+  steps:
+  - checkout: ${{ parameters.srcRepo }}
+  - task: NodeTool@0
+    displayName: "Install Node.js"
+    inputs:
+      versionSpec: ${{ parameters.nodeVersionSpec }}
+
+  - script: |
+      npm install
+      npm run build
+    displayName: "npm install and build"
+
+  - task: CopyFiles@2
+    inputs:
+      SourceFolder: '$(System.DefaultWorkingDirectory)'
+      Contents: |
+        **\*.js
+        package.json
+      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+
+  - task: PublishPipelineArtifacts@1
+    displayName: 'Publish Artifact'
+    inputs:
+      targetPath: $(Build.ArtifactStagingDirectory)
+      artifactName: ${{ parameters.artifactName }}
