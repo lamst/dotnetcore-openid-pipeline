@@ -41,14 +41,15 @@ jobs:
 
   - task: CopyFiles@2
     inputs:
-      SourceFolder: '$(System.DefaultWorkingDirectory)'
-      Contents: |
-        **\*.js
+      sourceFolder: '$(System.DefaultWorkingDirectory)'
+      contents: |
+        *.js
         package.json
-      TargetFolder: '$(Build.ArtifactStagingDirectory)'
+      targetFolder: '$(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}'
+      clearnTargetFolder: true
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
     inputs:
-      targetPath: $(Build.ArtifactStagingDirectory)
+      targetPath: '$(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}'
       artifactName: ${{ parameters.artifactName }}
