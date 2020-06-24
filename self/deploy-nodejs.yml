@@ -1,0 +1,32 @@
+parameters:
+# The name of the deployment job
+- name: name
+  type: string
+  default: "DeployNodeJS"
+# The name to be displayed in the UI
+- name: displayName
+  type: string
+  default: "Deploy Node.js App"
+# The pool to run the job(s)
+- name: pool
+  type: object
+# An object that describes the environment to deploy the artifact
+- name: environment
+  type: object
+
+jobs:
+- deployment: ${{ parameters.name }}
+  displayName: ${{ parameters.displayName }}
+  pool: ${{ parameters.pool }}
+  environment: ${{ parameters.environment }}
+  workspace:
+    clean: all
+  strategy:
+    runOnce: 
+      deploy:
+        steps:
+        - download: ${{ parameters.pipeline }}
+          ${{ if gt(length(parameters.artifactName), 0) }}:
+            artifact: ${{ parameters.artifactName }}
+          ${{ if gt(length(parameters.artifactPatterns), 0) }}:
+            patterns: ${{ parameters.artifactPatterns }}

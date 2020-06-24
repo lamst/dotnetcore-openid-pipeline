@@ -36,3 +36,16 @@ stages:
       pool: 
         name: "Self Hosted Windows 2019"
       srcRepo: TodoListService
+
+- stage: 'Test'
+  dependsOn: 'Build'
+  condition: succeeded()
+  jobs:
+  - template: '../self/deploy-nodejs.yml'
+    parameters:
+      name: 'DeployNodeJSApp'
+      pool:
+        name: 'Self Hosted Windows 2019'
+      environment: 
+        name: 'Test'
+        resourceName: 'mcw-dev2'
