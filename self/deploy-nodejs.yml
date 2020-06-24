@@ -13,6 +13,14 @@ parameters:
 # An object that describes the environment to deploy the artifact
 - name: environment
   type: object
+# The name of the artifact to download
+- name: artifactName
+  type: string
+  default: ''
+# The pattern of the artifact(s) to download
+- name: artifactPatterns
+  type: string
+  default: ''
 
 jobs:
 - deployment: ${{ parameters.name }}
