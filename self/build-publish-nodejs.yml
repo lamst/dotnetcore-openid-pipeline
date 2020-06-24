@@ -44,7 +44,7 @@ jobs:
       sourceFolder: '$(System.DefaultWorkingDirectory)'
       contents: |
         **/*.js
-        !node_modules/**
+        !node_modules/**/*
         package.json
       targetFolder: '$(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}'
       clearnTargetFolder: true
