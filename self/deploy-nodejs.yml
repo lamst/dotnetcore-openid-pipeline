@@ -13,6 +13,10 @@ parameters:
 # An object that describes the environment to deploy the artifact
 - name: environment
   type: object
+# The identifier of the pipeline resource. Default is the current pipeline
+- name: pipeline
+  type: object
+  default: current
 # The name of the artifact to download
 - name: artifactName
   type: string
