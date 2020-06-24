@@ -25,6 +25,10 @@ parameters:
 - name: artifactPatterns
   type: string
   default: ''
+# The physical path where the NodeJS content will be stored. The content can reside on the local Computer, 
+# or in a remote directory, or on a network share, like C:\Fabrikam or \\ContentShare\Fabrikam.
+- name: appPhysicalPath
+  type: string
 
 jobs:
 - deployment: ${{ parameters.name }}
@@ -42,3 +46,10 @@ jobs:
             artifact: ${{ parameters.artifactName }}
           ${{ if gt(length(parameters.artifactPatterns), 0) }}:
             patterns: ${{ parameters.artifactPatterns }}
+
+        - task: CopyFiles@2
+          inputs:
+            sourceFolder: '$(Pipeline.Workspace)/${{ parameters.pipeline.pipelineName }}'
+            contents: '**'
+            targetFolder: '${{ parameters.appPhysicalPath }}'
+            overWrite: true

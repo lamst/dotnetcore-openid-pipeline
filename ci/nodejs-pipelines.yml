@@ -51,3 +51,4 @@ stages:
         name: 'Test'
         resourceName: 'mcw-dev2'
       artifactName: ${{ variables.artifactName }}
+      appPhysicalPath: '%SystemDrive%\TodoListService'
