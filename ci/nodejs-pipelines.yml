@@ -23,7 +23,7 @@ trigger:
     - README.md
     - HELP.md
     include:
-    - ci/*
+    - ci/nodejs-pipelines.yml
     - self/build-publish-nodejs.yml
 
 stages:

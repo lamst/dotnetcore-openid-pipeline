@@ -111,6 +111,8 @@ jobs:
             inputs:
               rootDirectory: '$(Pipeline.Workspace)/d/${{ parameters.artifactName }}'
               verbosity: detailed
+              tokenPrefix: '$$'
+              tokenSuffic: '$$'
               targetFiles: |
                 **/*.config
 

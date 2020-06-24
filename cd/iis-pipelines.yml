@@ -23,7 +23,8 @@ trigger:
     - HELP.md
     include:
     - cd/*
-    - self/*
+    - self/deploy-iis-website.yml
+    - self/build-publish-dotnetcore.yml
 
 stages:
 - stage: 'Test'
