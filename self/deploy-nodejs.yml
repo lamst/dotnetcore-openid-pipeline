@@ -53,3 +53,4 @@ jobs:
             contents: '**'
             targetFolder: '${{ parameters.appPhysicalPath }}'
             overWrite: true
+            flattenFolders: true
