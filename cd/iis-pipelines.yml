@@ -10,7 +10,7 @@ resources:
   - pipeline: todo-webapp
     source: \remote\ci\todo-webapp
     project: CloudWorkshopWinRM
-    version: 1.0.1.20
+    version: 1.0.1.23
 
 trigger:
   batch: true
