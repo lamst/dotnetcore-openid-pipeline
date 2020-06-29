@@ -13,6 +13,9 @@ parameters:
 # An object that describes the environment to deploy the artifact
 - name: environment
   type: object
+# File path to the artifact to deploy
+- name: package
+  type: string
 # The identifier of the pipeline resource. Default is the current pipeline
 - name: pipeline
   type: object
@@ -49,7 +52,7 @@ jobs:
 
         - task: CopyFiles@2
           inputs:
-            sourceFolder: '$(Pipeline.Workspace)/${{ parameters.artifactName }}'
+            sourceFolder: ${{ parameters.package }}
             contents: |
               **/*
             targetFolder: '${{ parameters.appPhysicalPath }}'
