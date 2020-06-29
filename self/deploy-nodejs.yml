@@ -49,8 +49,9 @@ jobs:
 
         - task: CopyFiles@2
           inputs:
-            sourceFolder: '$(Pipeline.Workspace)/${{ parameters.pipeline.pipelineName }}'
-            contents: '**'
+            sourceFolder: '$(Pipeline.Workspace)'
+            contents: |
+              ${{ parameters.pipeline.pipelineName }}/**/*
             targetFolder: '${{ parameters.appPhysicalPath }}'
+            clearTargetFolder: true
             overWrite: true
-            flattenFolders: true

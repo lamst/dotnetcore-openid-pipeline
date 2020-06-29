@@ -45,6 +45,7 @@ jobs:
       contents: |
         **/*.js
         !node_modules/**/*
+        !tests/**/*
         package.json
       targetFolder: '$(Build.ArtifactStagingDirectory)/${{ parameters.artifactName }}'
       clearnTargetFolder: true
