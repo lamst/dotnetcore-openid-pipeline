@@ -51,5 +51,5 @@ stages:
         name: 'Test'
         resourceName: 'mcw-dev2'
       artifactName: ${{ variables.artifactName }}
-      package: $(Pipeline.Workspace)/**/${{ variables.artifactName }}
+      package: $(Pipeline.Workspace)/${{ variables.artifactName }}
       appPhysicalPath: 'C:\TodoListService'
