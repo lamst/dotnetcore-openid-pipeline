@@ -56,5 +56,5 @@ jobs:
             contents: |
               **/*
             targetFolder: '${{ parameters.appPhysicalPath }}'
-            clearTargetFolder: true
+            cleanTargetFolder: true
             overWrite: true
