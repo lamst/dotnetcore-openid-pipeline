@@ -59,7 +59,7 @@ jobs:
             cleanTargetFolder: true
             overWrite: true
 
-        - task: Npm@1
-          inputs:
-            command: 'install'
-            workingDirectory: ${{ parameters.appPhysicalPath }}
+        - script: |
+            call npm install
+          workingDirectory: ${{ parameters.appPhysicalPath }}
+          displayName: 'Install Node.js packages'
