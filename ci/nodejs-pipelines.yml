@@ -6,6 +6,10 @@ resources:
     name: lamst/active-directory-javascript-nodejs-webapi-v2
     endpoint: GitHub
     ref: todo
+    trigger:
+      branches:
+        include:
+        - master
 
 variables:
 - name: buildJobName
