@@ -56,4 +56,6 @@ stages:
         resourceName: 'mcw-dev2'
       artifactName: ${{ variables.artifactName }}
       package: $(Pipeline.Workspace)/${{ variables.artifactName }}
+      processName: 'todo-api'
+      ecosystemFilename: 'ecosystem.config.js'
       appPhysicalPath: 'C:\TodoListService'
