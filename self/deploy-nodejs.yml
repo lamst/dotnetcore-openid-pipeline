@@ -28,9 +28,15 @@ parameters:
 - name: artifactPatterns
   type: string
   default: ''
-# The physical path where the NodeJS content will be stored. The content can reside on the local Computer, 
+# The physical path where the Node.js content will be stored. The content can reside on the local Computer, 
 # or in a remote directory, or on a network share, like C:\Fabrikam or \\ContentShare\Fabrikam.
 - name: appPhysicalPath
+  type: string
+# The name of the Node.js process
+- name: processName
+  type: string
+# The name of PM2 ecosystem file
+- name: ecosystemFilename
   type: string
 
 jobs:
@@ -50,6 +56,11 @@ jobs:
           ${{ if gt(length(parameters.artifactPatterns), 0) }}:
             patterns: ${{ parameters.artifactPatterns }}
 
+        - script: |
+            call pm2 stop ${{ parameters.processName }}
+          workingDirectory: ${{ parameters.appPhysicalPath }}
+          displayName: 'Stop Node.js process'
+
         - task: CopyFiles@2
           inputs:
             sourceFolder: ${{ parameters.package }}
@@ -63,3 +74,9 @@ jobs:
             call npm install
           workingDirectory: ${{ parameters.appPhysicalPath }}
           displayName: 'Install Node.js packages'
+
+        - script: |
+            call pm2 restart ${{ parameters.ecosystemFilename }}
+            call pm2 save
+          workingDirectory: ${{ parameters.appPhysicalPath }}
+          displayName: 'Restart Node.js process'
