@@ -44,7 +44,7 @@ stages:
 
 - stage: 'Test'
   dependsOn: 'Build'
-  condition: succeeded()
+  condition: and(succeeded(), eq(variables[Deploy.Test], true))
   jobs:
   - template: '../self/deploy-nodejs.yml'
     parameters:
