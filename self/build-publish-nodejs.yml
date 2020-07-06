@@ -39,6 +39,9 @@ jobs:
       npm run build
     displayName: "npm install and build"
 
+  - task: WhiteSource Bolt@19
+    displayName: 'WhiteSource Bolt'
+
   - task: CopyFiles@2
     inputs:
       sourceFolder: '$(System.DefaultWorkingDirectory)'
