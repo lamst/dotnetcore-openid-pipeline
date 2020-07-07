@@ -1,0 +1,25 @@
+# File owasp-zap.yml
+
+parameters:
+# The name of the job
+- name: name
+  type: string
+  default: "OWASP Security Scan"
+# The pool to run the job
+- name: pool
+  type: object
+# The version of Docker CLI to install
+- name: dockerVersion
+  type: string
+  default: '17.09.0-ce'
+
+jobs:
+- job: ${{ parameters.name }}
+  pool: ${{ parameters.pool }}
+  workspace:
+    clean: all
+  steps:
+  - task: DockerInstaller@0
+    displayName: 'Install Docker'
+    inputs:
+      dockerVersion: ${{ parameters.dockerVersion }}

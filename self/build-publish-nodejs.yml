@@ -8,7 +8,6 @@ parameters:
 # The pool to run the job
 - name: pool
   type: object
-  default: null
 # The repository containing the source codes to build
 - name: srcRepo
   type: object
