@@ -16,6 +16,8 @@ variables:
   value: 'BuildService'
 - name: artifactName
   value: 'TodoList.Service'
+- name: deployJobName
+  value: 'DeployNodeJSApp'
 - name: Deploy.Test
   value: true
 
@@ -51,7 +53,7 @@ stages:
   jobs:
   - template: '../self/deploy-nodejs.yml'
     parameters:
-      name: 'DeployNodeJSApp'
+      name: ${{ variables.deployJobName }}
       pool:
         name: 'Self Hosted Windows 2019'
       environment: 
@@ -64,6 +66,8 @@ stages:
       appPhysicalPath: 'C:\TodoListService'
 
   - template: '../self/owasp-zap.yml'
+    dependsOn: ${{ variables.deployJobName }}
+    condition: and(succeeded(), eq(variables['Deploy.Test'], true))
     parameters:
       pool:
         name: 'Self Hosted Windows 2019'

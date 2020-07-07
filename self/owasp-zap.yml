@@ -5,6 +5,9 @@ parameters:
 - name: name
   type: string
   default: "OWASPSecurityScan"
+- name: displayName
+  type: string
+  default: "OWASP Security Scan"
 # The pool to run the job
 - name: pool
   type: object
@@ -15,10 +18,13 @@ parameters:
 
 jobs:
 - job: ${{ parameters.name }}
+  displayName: ${{ parameters.displayName }}
   pool: ${{ parameters.pool }}
   workspace:
     clean: all
   steps:
+  - checkout: none
+  
   - task: DockerInstaller@0
     displayName: 'Install Docker'
     inputs:

@@ -4,7 +4,7 @@ parameters:
 # The name of the job
 - name: name
   type: string
-  default: "Build & Publish Node.js"
+  default: "BuildPublishNodeJS"
 # The pool to run the job
 - name: pool
   type: object
@@ -28,6 +28,7 @@ jobs:
     clean: all
   steps:
   - checkout: ${{ parameters.srcRepo }}
+  
   - task: NodeTool@0
     displayName: "Install Node.js"
     inputs:
