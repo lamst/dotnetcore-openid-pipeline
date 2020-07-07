@@ -73,4 +73,4 @@ stages:
       dependentCondition: and(succeeded(), eq(variables['Deploy.Test'], true))
       owaspScanType: targetedScan
       owaspScanUrl: http://mcw-dev2
-      owaspScanPort: 8282
+      owaspScanPort: 8484
