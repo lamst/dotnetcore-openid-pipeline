@@ -21,6 +21,24 @@ parameters:
 - name: dockerVersion
   type: string
   default: '17.09.0-ce'
+# The failure threshold that indicates the score at which the pipeline will begin to fail.
+- name: owaspThreshold
+  type: number
+  default: 50
+# The type of scan to perform
+- name: owaspScanType
+  type: string
+  default: ''
+  values:
+  - 'targetedScan'
+# The URL to scan. Must begin with either http:// or https://
+- name: owaspScanUrl
+  type: string
+  default: ''
+# The port to scan on the target
+- name: owaspScanPort
+  type: number
+  default: 80
 
 jobs:
 - job: ${{ parameters.name }}
@@ -39,3 +57,12 @@ jobs:
     displayName: 'Install Docker'
     inputs:
       dockerVersion: ${{ parameters.dockerVersion }}
+
+  - task: CSE-DevOps.zap-scanner.custom-build-release-task.owaspzap@1
+    displayName: 'ZAP Scanner'
+    inputs:
+      threshold: ${{ parameters.owaspThreshold }}
+      ${{ if gt(length(parameters.owaspScanType), 0) }}:
+        scanType: ${{ parameters.owaspScanType }}
+        url: ${{ parameters.owaspScanUrl }}
+      port: ${{ parameters.owaspScanPort }}

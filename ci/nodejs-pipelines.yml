@@ -71,3 +71,6 @@ stages:
         name: 'Self Hosted Windows 2019'
       dependentJobName: ${{ variables.deployJobName }}
       dependentCondition: and(succeeded(), eq(variables['Deploy.Test'], true))
+      owaspScanType: targetedScan
+      owaspScanUrl: http://mcw-dev2
+      owaspScanPort: 8282
