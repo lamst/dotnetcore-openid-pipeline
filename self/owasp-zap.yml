@@ -4,7 +4,7 @@ parameters:
 # The name of the job
 - name: name
   type: string
-  default: "OWASP Security Scan"
+  default: "OWASPSecurityScan"
 # The pool to run the job
 - name: pool
   type: object
