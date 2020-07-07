@@ -66,8 +66,8 @@ stages:
       appPhysicalPath: 'C:\TodoListService'
 
   - template: '../self/owasp-zap.yml'
-    dependsOn: ${{ variables.deployJobName }}
-    condition: and(succeeded(), eq(variables['Deploy.Test'], true))
     parameters:
       pool:
         name: 'Self Hosted Windows 2019'
+      dependentJobName: ${{ variables.deployJobName }}
+      dependentCondition: and(succeeded(), eq(variables['Deploy.Test'], true))
