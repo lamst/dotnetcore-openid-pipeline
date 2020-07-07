@@ -72,5 +72,5 @@ stages:
       dependentJobName: ${{ variables.deployJobName }}
       dependentCondition: and(succeeded(), eq(variables['Deploy.Test'], true))
       owaspScanType: targetedScan
-      owaspScanUrl: http://mcw-dev2
+      owaspScanUrl: http://10.0.0.9
       owaspScanPort: 8484
