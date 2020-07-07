@@ -31,6 +31,7 @@ parameters:
   default: ''
   values:
   - 'targetedScan'
+  - 'agentScan'
 # The URL to scan. Must begin with either http:// or https://
 - name: owaspScanUrl
   type: string
