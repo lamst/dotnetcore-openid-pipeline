@@ -47,7 +47,7 @@ stages:
 
 - stage: 'Test'
   dependsOn: 'Build'
-  condition: succeeded()
+  condition: and(succeeded(), eq(variables['Deploy.Test'], true))
   variables:
   - template: test-variables.yml
   jobs:
@@ -62,7 +62,7 @@ stages:
       appPoolName: 'TodoListAppPool'
       websiteName: 'TodoList'
       websitePhysicalPath: '%SystemDrive%\TodoList'
-      bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","hostname":"*","sslThumbprint":"","sniFlag":false}]}'
+      bindings: '{"bindings":[{"protocol":"http","ipAddress":"All Unassigned","port":"8080","sslThumbprint":"","sniFlag":false}]}'
       package: '$(Pipeline.Workspace)/${{ variables.artifactName }}/**/*.zip'
       xmlVariableSubstitution: true
 
