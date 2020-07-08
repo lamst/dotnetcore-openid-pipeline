@@ -64,13 +64,3 @@ stages:
       processName: 'todo-api'
       ecosystemFilename: 'ecosystem.config.js'
       appPhysicalPath: 'C:\TodoListService'
-
-  - template: '../self/owasp-zap.yml'
-    parameters:
-      pool:
-        name: 'Self Hosted Linux'
-      dependentJobName: ${{ variables.deployJobName }}
-      dependentCondition: and(succeeded(), eq(variables['Deploy.Test'], true))
-      owaspThreshold: 110
-      owaspScanType: targetedScan
-      owaspScanUrl: http://mcw-dev2
