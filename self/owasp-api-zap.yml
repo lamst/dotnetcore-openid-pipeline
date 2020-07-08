@@ -1,0 +1,132 @@
+# File owasp-api-zap.yml
+
+parameters:
+# The name of the job
+- name: name
+  type: string
+  default: "OWASPSecurityScan"
+- name: displayName
+  type: string
+  default: "OWASP Security Scan"
+# The pool to run the job
+- name: pool
+  type: object
+- name: dependentJobName
+  type: string
+  default: ''
+- name: dependentCondition
+  type: string
+  default: ''
+# The version of Docker CLI to install
+- name: dockerVersion
+  type: string
+  default: '17.09.0-ce'
+# The failure threshold that indicates the score at which the pipeline will begin to fail.
+- name: owaspThreshold
+  type: number
+  default: 50
+# The type of scan to perform
+- name: owaspScanType
+  type: string
+  default: ''
+  values:
+  - 'targetedScan'
+  - 'agentScan'
+# The URL to scan. Must begin with either http:// or https://
+- name: owaspScanUrl
+  type: string
+  default: ''
+# The port to scan on the target
+- name: owaspScanPort
+  type: number
+  default: 80
+
+jobs:
+- job: ${{ parameters.name }}
+  displayName: ${{ parameters.displayName }}
+  pool: ${{ parameters.pool }}
+  workspace:
+    clean: all
+  ${{ if gt(length(parameters.dependentJobName), 0) }}:
+    dependsOn: ${{ parameters.dependentJobName }}
+  ${{ if gt(length(parameters.dependentCondition), 0) }}:
+    condition: ${{ parameters.dependentCondition }}
+  steps:
+  - checkout: none
+
+  - task: DockerInstaller@0
+    displayName: 'Install Docker'
+    inputs:
+      dockerVersion: ${{ parameters.dockerVersion }}
+
+  - bash: |
+      mkdir $(pwd)/owaspzap
+      chmod 777 $(pwd)/owaspzap
+      docker run -u 0 -v $(pwd)/owaspzap:/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t $HOST:$PORT -J report.json -r report.html
+    displayName: 'ZAP Scanner'
+    env:
+      HOST: ${{ parameters.owaspScanUrl }}
+      PORT: ${{ parameters.owaspScanPort }}
+
+  - bash: |
+      sudo npm install -g handlebars-cmd
+    
+      cat <<EOF > owaspzap/nunit-template.hbs
+      {{#each site}}
+    
+      <test-run
+          id="2"
+          name="Owasp test"
+          start-time="{{../[@generated]}}"  >
+          <test-suite
+              id="{{@index}}"
+              type="Assembly"
+              name="{{[@name]}}"
+              result="Failed"
+              failed="{{alerts.length}}">
+              <attachments>
+                  <attachment>
+                      <filePath>owaspzap/report.html</filePath>
+                  </attachment>
+              </attachments>
+          {{#each alerts}}<test-case
+              id="{{@index}}"
+              name="{{alert}}"
+              result="Failed"
+              fullname="{{alert}}"
+              time="1">
+                  <failure>
+                      <message>
+                          <![CDATA[{{{desc}}}]]>
+                      </message>
+                      <stack-trace>
+                          <![CDATA[
+      Solution:
+      {{{solution}}}
+    
+      Reference:
+      {{{reference}}}
+    
+      instances:{{#each instances}}
+      * {{uri}}
+          - {{method}}
+          {{#if evidence}}- {{{evidence}}}{{/if}}
+                          {{/each}}]]>
+                      </stack-trace>
+                  </failure>
+          </test-case>
+          {{/each}}
+          </test-suite>
+      </test-run>
+      {{/each}}
+      EOF
+    displayName: 'OWASP NUnit Template'
+
+  - bash: ' handlebars owaspzap/report.json < owaspzap/nunit-template.hbs > owaspzap/test-results.xml'
+    displayName: 'Generate NUnit Type File'
+
+  - task: PublishTestResults@2
+    displayName: 'Publish OWASP Test Results'
+    inputs:
+      testResultsFormat: NUnit
+      testResultsFiles: 'owaspzap/test-results.xml'
