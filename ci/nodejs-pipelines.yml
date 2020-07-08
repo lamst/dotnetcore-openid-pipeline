@@ -71,5 +71,6 @@ stages:
         name: 'Self Hosted Linux'
       dependentJobName: ${{ variables.deployJobName }}
       dependentCondition: and(succeeded(), eq(variables['Deploy.Test'], true))
+      owaspThreshold: 110
       owaspScanType: targetedScan
-      owaspScanUrl: http://10.0.0.9
+      owaspScanUrl: http://mcw-dev2
