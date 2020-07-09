@@ -21,19 +21,12 @@ parameters:
 - name: dockerVersion
   type: string
   default: '17.09.0-ce'
-# The failure threshold that indicates the score at which the pipeline will begin to fail.
-- name: owaspThreshold
-  type: number
-  default: 50
-# The type of scan to perform
-- name: owaspScanType
+# The host to scan API. Must begin with either http:// or https://
+- name: owaspScanHost
   type: string
   default: ''
-  values:
-  - 'targetedScan'
-  - 'agentScan'
-# The URL to scan. Must begin with either http:// or https://
-- name: owaspScanUrl
+# The URL that contains the API definitions. Must begin with a URI path separator '/'.
+- name: owaspScanUri
   type: string
   default: ''
 # The port to scan on the target
@@ -62,11 +55,12 @@ jobs:
   - bash: |
       mkdir $(pwd)/owaspzap
       chmod 777 $(pwd)/owaspzap
-      docker run -u 0 -v $(pwd)/owaspzap:/zap/wrk/:rw owasp/zap2docker-stable zap-baseline.py -t $HOST:$PORT -J report.json -r report.html
+      docker run --rm -u 0 -v $(pwd)/owaspzap:/zap/wrk/:rw owasp/zap2docker-stable zap-api-scan.py -t $HOST:$PORT$URI -f openapi -J report.json -r report.html -I
     displayName: 'ZAP Scanner'
     env:
-      HOST: ${{ parameters.owaspScanUrl }}
+      HOST: ${{ parameters.owaspScanHost }}
       PORT: ${{ parameters.owaspScanPort }}
+      URI: ${{ parameters.owaspScanUri }}
 
   - bash: |
       sudo npm install -g handlebars-cmd
