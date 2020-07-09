@@ -34,7 +34,7 @@ trigger:
     - ci/nodejs-pipelines.yml
     - self/build-publish-nodejs.yml
     - self/deploy-nodejs.yml
-    - self/owasp-zap.yml
+    - self/owasp-api-zap.yml
 
 stages:
 - stage: 'Build'
