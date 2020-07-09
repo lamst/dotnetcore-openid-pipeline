@@ -55,7 +55,7 @@ jobs:
   - bash: |
       mkdir $(pwd)/owaspzap
       chmod 777 $(pwd)/owaspzap
-      docker run --rm -u 0 -v $(pwd)/owaspzap:/zap/wrk/:rw owasp/zap2docker-stable zap-api-scan.py -t $HOST:$PORT$URI -f openapi -J report.json -r report.html
+      docker run --rm -u 0 -v $(pwd)/owaspzap:/zap/wrk/:rw owasp/zap2docker-weekly zap-api-scan.py -t $HOST:$PORT$URI -f openapi -J report.json -r report.html
     displayName: 'ZAP Scanner'
     env:
       HOST: ${{ parameters.owaspScanHost }}
