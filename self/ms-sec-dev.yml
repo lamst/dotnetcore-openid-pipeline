@@ -40,6 +40,6 @@ steps:
       InputType: ${{ parameters.binSkimInputType }}
       ${{ if eq(parameters.binSkimInputType, 'CommandLine') }}:
         arguments: ${{ parameters.binSkimArguments }}
-      ${{ if eq(parameters.binSkimAnalyzeVerbose, true)) }}:
+      ${{ if eq(parameters.binSkimAnalyzeVerbose, true) }}:
         analyzeVerbose: ${{ parameters.binSkimAnalyzeVerbose }}
 
