@@ -1,5 +1,6 @@
 # File ms-sec-dev.yml
 
+# The scan type to use for the AntiMalware scan.
 parameters:
 - name: antimalwareScanType
   type: string
@@ -9,9 +10,36 @@ parameters:
   - 'FullSystemScan'
   - 'QuickScan'
   - 'YourConfigurationScan'
+# Basic builds the commandline for you based on other inputs; 
+# CommandLine requires that you provide the exact commandline that you would use to run binskim.exe manually
+- name: binSkimInputType
+  type: string
+  default: 'Basic'
+  values:
+  - 'Basic'
+  - 'CommandLine'
+# Standard Binskim command line arguments to execute. The output path will be removed and replaced.
+- name: binSkimArguments
+  type: string
+  default: ''
+# Emit verbose output. The resulting comprehensive report is designed to provide appropriate evidence for compliance scenarios.
+- name: binSkmAnalyzeVerbose
+  type: boolean
+  default: false
 
 steps:
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
     displayName: "Run Windows Defender AntiMalware Scan"
+    condition: always()
     inputs:
       scanType: ${{ parameters.antimalwareScanType }}
+  
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-binskim.BinSkim@3
+    displayName: 'Run BinSkim '
+    inputs:
+      InputType: ${{ parameters.binSkimInputType }}
+      ${{ if eq(parameters.binSkimInputType, 'CommandLine') }}:
+        arguments: ${{ parameters.binSkimArguments }}
+      ${{ if (eq(parameters.binSkimAnalyzeVerbose, true)) }}:
+        analyzeVerbose: ${{ parameters.binSkimAnalyzeVerbose }}
+

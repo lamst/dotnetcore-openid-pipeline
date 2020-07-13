@@ -9,7 +9,7 @@ parameters:
   default: ""
 - name: buildConfiguration
   type: string
-  default: "Release"
+  default: "Debug"
 # The name of the artifact
 - name: artifactName
   type: string
@@ -59,6 +59,8 @@ jobs:
       zipAfterPublish: true
 
   - template: ms-sec-dev.yml
+    parameters:
+      binSkimAnalyzeVerbose: true
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
