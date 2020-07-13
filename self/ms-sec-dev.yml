@@ -1,0 +1,17 @@
+# File ms-sec-dev.yml
+
+parameters:
+- name: antimalwareScanType
+  type: string
+  default: 'QuickScan'
+  values:
+  - 'CustomScan'
+  - 'FullSystemScan'
+  - 'QuickScan'
+  - 'YourConfigurationScan'
+
+steps:
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
+    displayName: "Run Windows Defender AntiMalware Scan"
+    inputs:
+      scanType: ${{ parameters.antimalwareScanType }}

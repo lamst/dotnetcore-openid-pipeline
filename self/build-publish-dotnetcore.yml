@@ -58,6 +58,8 @@ jobs:
       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: true
 
+  - template: ms-sec-dev.yml
+
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
     inputs:

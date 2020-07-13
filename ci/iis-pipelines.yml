@@ -17,7 +17,7 @@ variables:
 - name: deployJobName
   value: 'DeployWeAppToIIS'
 - name: Deploy.Test
-  value: true
+  value: false
   
 trigger:
   batch: true
