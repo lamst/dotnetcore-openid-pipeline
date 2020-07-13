@@ -33,6 +33,7 @@ trigger:
     - self/build-publish-dotnetcore.yml
     - self/deploy-iis-website.yml
     - self/owasp-zap.yml
+    - self/ms-sec-dev.yml
 
 stages:
 - stage: 'Build'
