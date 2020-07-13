@@ -47,7 +47,11 @@ jobs:
     displayName: Build
     inputs:
       projects: '${{ parameters.project }}'
-      arguments: '--configuration ${{ parameters.buildConfiguration }}'
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+
+  - template: ms-sec-dev.yml
+    parameters:
+      binSkimAnalyzeVerbose: true
 
   - task: DotNetCoreCLI@2
     displayName: Publish
@@ -57,10 +61,6 @@ jobs:
       projects: '${{ parameters.project }}'
       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
       zipAfterPublish: true
-
-  - template: ms-sec-dev.yml
-    parameters:
-      binSkimAnalyzeVerbose: true
 
   - task: PublishPipelineArtifact@1
     displayName: 'Publish Artifact'
