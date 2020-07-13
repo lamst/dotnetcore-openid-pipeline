@@ -35,7 +35,8 @@ steps:
       scanType: ${{ parameters.antimalwareScanType }}
   
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-binskim.BinSkim@3
-    displayName: 'Run BinSkim '
+    displayName: 'Run BinSkim'
+    condition: always()
     inputs:
       InputType: ${{ parameters.binSkimInputType }}
       ${{ if eq(parameters.binSkimInputType, 'CommandLine') }}:
