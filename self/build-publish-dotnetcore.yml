@@ -47,11 +47,12 @@ jobs:
     displayName: Build
     inputs:
       projects: '${{ parameters.project }}'
-      arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.ArtifactStagingDirectory)'
+      arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.BinariesDirectory)'
 
   - template: ms-sec-dev.yml
     parameters:
       binSkimAnalyzeVerbose: true
+      binSkimAnalyzeTarget: '$(Build.BinariesDirectory)\*'
 
   - task: DotNetCoreCLI@2
     displayName: Publish
