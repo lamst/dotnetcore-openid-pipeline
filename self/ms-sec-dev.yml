@@ -34,6 +34,18 @@ parameters:
 - name: binSkimAnalyzeVerbose
   type: boolean
   default: false
+# The version of the tool to run.
+- name: credScanToolVersion
+  type: string
+  default: 'Latest'
+  values:
+  - '1.27.7'
+  - 'Latest'
+  - 'LatestPreRelease'
+# The folder in your repository to scan for credentials.
+- name: credScanFolder
+  type: string
+  default: ''
 
 steps:
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
@@ -54,5 +66,14 @@ steps:
       ${{ if gt(length(parameters.binSkimAnalyzeTarget), 0) }}:
         analyzeTarget: ${{ parameters.binSkimAnalyzeTarget }}
       analyzeRecurse: ${{ parameters.binSkimAnalyzeRecurse }}
+  
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
+    displayName: 'Run CredScan'
+    inputs:
+      toolMajorVersion: V2
+      debugMode: false
+      toolVersion: ${{ parameters.credScanToolVersion }}
+      ${{ if gt(length(parameters.credScanFolder), 0) }}:
+        scanFolder: ${{ parameters.credScanFolder }}
       
 
