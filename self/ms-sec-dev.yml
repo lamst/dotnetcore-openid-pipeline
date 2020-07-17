@@ -240,10 +240,6 @@ steps:
       toolVersion: ${{ parameters.credScanToolVersion }}
       ${{ if gt(length(parameters.credScanFolder), 0) }}:
         scanFolder: ${{ parameters.credScanFolder }}
-
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-roslynanalyzers.RoslynAnalyzers@2
-    displayName: 'Run Roslyn Analyzers'
-    condition: always()
       
   - ${{ if eq(parameters.runTSLint, true) }}:
     - task: securedevelopmentteam.vss-secure-development-tools.build-task-tslint.TSLint@1
@@ -269,10 +265,12 @@ steps:
 
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
     displayName: 'Create Security Analysis Report'
+    condition: always()
     inputs:
       AllTools: true
 
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
     displayName: 'Post Analysis'
+    condition: always()
     inputs:
       AllTools: true
