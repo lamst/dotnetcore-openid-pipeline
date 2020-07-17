@@ -266,3 +266,13 @@ steps:
     condition: always()
     inputs:
       artifactName: ${{ parameters.analysisArtifactName }}
+
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-report.SdtReport@1
+    displayName: 'Create Security Analysis Report'
+    inputs:
+      AllTools: true
+
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-postanalysis.PostAnalysis@1
+    displayName: 'Post Analysis'
+    inputs:
+      AllTools: true
