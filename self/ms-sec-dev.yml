@@ -46,6 +46,170 @@ parameters:
 - name: credScanFolder
   type: string
   default: ''
+# A boolean that indicates whether or not to run TSLint and publish its result in the report
+- name: runTSLint
+  type: boolean
+  default: false
+# All results include the rules shipped with the selected version of rule library
+- name: tslintRuleLibrary
+  type: string
+  default: 'tslint'
+  values:
+  - 'tslint'
+  - 'microsoft'
+# The available ruleset when TSLint library was chosen
+- name: tslintRuleset
+  type: string
+  default: 'tsrecommended'
+  values:
+  - 'tslatest'
+  - 'tsrecommended'
+# The rules to run against TypeScript files
+- name: tslintMicrosoftRuleset
+  type: string
+  default: 'mssdlrequired'
+  values:
+  - 'mssdlrequired'
+  - 'mssdlrecommended'
+  - 'msrecommended'
+  - 'skypesdlrequired'
+  - 'skypesdlangular'
+  - 'tslatest'
+  - 'tsrecommended'
+# The version of tslint-microsoft-contrib  (SDL Rules) to download and use.
+- name: tslintMicrosoftContribVersion
+  type: string
+  default: 'latest'
+  values:
+  - 'latest'
+  - '5.2.0'
+  - '5.0.3'
+  - '5.0.1'
+  - '5.0.0'
+  - '4.0.1'
+  - '4.0.0'
+# The version of typescript  to download and use.
+- name: tslintTypeScriptVersion
+  type: string
+  default: 'latest'
+  values:
+  - 'latest'
+  - '3.0.1'
+  - '2.9.2'
+  - '2.9.1'
+  - '2.8.4'
+  - '2.8.3'
+  - '2.8.1'
+  - '2.7.2'
+  - '2.7.1'
+  - '2.6.2'
+  - '2.6.1'
+  - '2.5.3'
+  - '2.5.2'
+  - '2.5.1'
+  - '2.5.0'
+  - '2.4.2'
+  - '2.4.1'
+  - '2.4.0'
+  - '2.3.4'
+  - '2.3.3'
+  - '2.3.2'
+  - '2.3.1'
+  - '2.3.0'
+  - '2.2.1'
+  - '2.2.0'
+  - '2.1.6'
+  - '2.1.5'
+  - '2.1.4'
+  - '2.1.1'
+  - '2.0.9'
+  - '2.0.8'
+  - '2.0.7'
+  - '2.0.6'
+  - '2.0.3'
+  - '2.0.2'
+  - '2.0.10'
+  - '2.0.0'
+  - '1.9.0'
+  - '1.8.9'
+  - '1.8.7'
+  - '1.8.6'
+  - '1.8.5'
+  - '1.8.2'
+  - '1.8.10'
+  - '1.8.0'
+  - '1.7.5'
+  - '1.7.3'
+  - '1.6.2'
+  - '1.5.3'
+  - '1.4.1'
+  - '1.3.0'
+  - '1.0.1'
+  - '1.0.0'
+  - '0.9.7'
+  - '0.9.5'
+  - '0.9.1'
+  - '0.9.0'
+  - '0.8.3'
+  - '0.8.2'
+  - '0.8.1'
+  - '0.8.0'
+# A file glob that determines which file(s) to process. Paths are relative to the Build.SourcesDirectory value.
+#
+# Microsoft's Contribution library requries the use of a project file. If you are using Microsoft's Contribution 
+# library with the File Glob Pattern option, a project file will be generated for you.
+- name: tslintFiles
+  type: string
+  default: '**\*.ts'
+# The version of TSLint to download and run.
+- name: tslintToolVersion
+  type: string
+  default: 'latest'
+  values:
+  - 'latest'
+  - '5.11.0'
+  - '5.10.0'
+  - '5.9.1'
+  - '5.5.0'
+  - '5.4.3'
+  - '5.4.2'
+  - '5.4.1'
+  - '5.4.0'
+  - '5.3.2'
+  - '5.3.0'
+  - '5.2.0'
+  - '5.1.0'
+  - '5.0.0'
+  - '4.5.1'
+  - '4.5.0'
+  - '4.4.2'
+  - '4.4.1'
+  - '4.4.0'
+  - '4.3.1'
+  - '4.3.0'
+  - '4.2.0'
+  - '4.1.1'
+  - '4.1.0'
+  - '4.0.2'
+  - '4.0.1'
+  - '4.0.0'
+# The target version of ECMAScript configured with your TypeScript compiler. When using a project file, 
+# this is the compilerOptions.target field of your TypeScript tsconfig.json file.
+- name: tslintECMAScriptVersion
+  type: string
+  default: 'ES3'
+  values:
+  - 'ESNext'
+  - 'ES6'
+  - 'ES5'
+  - 'ES3'
+  - 'ES2017'
+  - 'ES2016'
+  - 'ES2015'
+# The name of the artifact of the analysis to publish
+- name: analysisArtifactName
+  type: string
+  default: 'CodeAnalysisLogs'
 
 steps:
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-antimalware.AntiMalware@3
@@ -69,11 +233,36 @@ steps:
   
   - task: securedevelopmentteam.vss-secure-development-tools.build-task-credscan.CredScan@2
     displayName: 'Run CredScan'
+    condition: always()
     inputs:
       toolMajorVersion: V2
       debugMode: false
       toolVersion: ${{ parameters.credScanToolVersion }}
       ${{ if gt(length(parameters.credScanFolder), 0) }}:
         scanFolder: ${{ parameters.credScanFolder }}
-      
 
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-roslynanalyzers.RoslynAnalyzers@2
+    displayName: 'Run Roslyn Analyzers'
+    condition: always()
+      
+  - ${{ if eq(parameters.runTSLint, true) }}:
+    - task: securedevelopmentteam.vss-secure-development-tools.build-task-tslint.TSLint@1
+      displayName: 'Run TSLint'
+      condition: always()
+      inputs:
+        ruleLibrary: ${{ parameters.tslintRuleLibrary }}
+        ${{ if eq(parameters.tslintRuleLibrary, 'tslint') }}:
+          ruleset: ${{ parameters.tslintRuleset }}
+          typeScriptVersion: ${{ parameters.tslintTypeScriptVersion }}
+        ${{ if eq(parameters.tslintRuleLibrary, 'microsoft') }}:
+          ruleset: ${{ parameters.tslintMicrosoftRuleset }}
+          microsoftContribVersion: ${{ parameters.tslintMicrosoftContribVersion }}
+          ECMAScriptVersion: ${{ parameters.tslintECMAScriptVersion }}
+        files: ${{ parameters.tslintFiles }}
+        toolVersion: ${{ parameters.tslintToolVersion }}
+
+  - task: securedevelopmentteam.vss-secure-development-tools.build-task-publishsecurityanalysislogs.PublishSecurityAnalysisLogs@2
+    displayName: 'Publish Security Analysis Logs'
+    condition: always()
+    inputs:
+      artifactName: ${{ parameters.analysisArtifactName }}
