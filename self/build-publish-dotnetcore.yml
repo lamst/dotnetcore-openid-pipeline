@@ -49,10 +49,6 @@ jobs:
       projects: '${{ parameters.project }}'
       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.BinariesDirectory)'
 
-  - task: securedevelopmentteam.vss-secure-development-tools.build-task-roslynanalyzers.RoslynAnalyzers@2
-    displayName: 'Run Roslyn Analyzers'
-    condition: always()
-
   - template: ms-sec-dev.yml
     parameters:
       binSkimAnalyzeVerbose: true

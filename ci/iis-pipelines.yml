@@ -13,7 +13,7 @@ variables:
 - name: artifactName
   value: 'TodoList.WebApp'
 - name: buildConfiguration
-  value: 'Release'
+  value: 'Debug'
 - name: deployJobName
   value: 'DeployWeAppToIIS'
 - name: Deploy.Test
