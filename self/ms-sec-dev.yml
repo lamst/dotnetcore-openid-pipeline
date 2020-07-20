@@ -241,14 +241,6 @@ steps:
       ${{ if gt(length(parameters.credScanFolder), 0) }}:
         scanFolder: ${{ parameters.credScanFolder }}
 
-  - task: SonarSource.sonarcloud.14d9cde6-c1da-4d55-aa01-2965cd301255.SonarCloudPrepare@1
-    displayName: 'Prepare analysis on SonarCloud'
-    inputs:
-      SonarCloud: SonarCloud
-      organization: chulam
-      projectKey: 'mcw-todo.chulam.dev.azure.com'
-      projectName: 'mcw-todo'
-
   - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
     displayName: 'Run Code Analysis'
     continueOnError: true
