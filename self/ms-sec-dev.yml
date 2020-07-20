@@ -241,10 +241,6 @@ steps:
       ${{ if gt(length(parameters.credScanFolder), 0) }}:
         scanFolder: ${{ parameters.credScanFolder }}
 
-  - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
-    displayName: 'Run Code Analysis'
-    continueOnError: true
-      
   - ${{ if eq(parameters.runTSLint, true) }}:
     - task: securedevelopmentteam.vss-secure-development-tools.build-task-tslint.TSLint@1
       displayName: 'Run TSLint'

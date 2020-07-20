@@ -57,6 +57,10 @@ jobs:
       projects: '${{ parameters.project }}'
       arguments: '--configuration ${{ parameters.buildConfiguration }} --output $(Build.BinariesDirectory)'
 
+  - task: SonarSource.sonarcloud.ce096e50-6155-4de8-8800-4221aaeed4a1.SonarCloudAnalyze@1
+    displayName: 'Run Code Analysis'
+    continueOnError: true
+
   - template: ms-sec-dev.yml
     parameters:
       binSkimAnalyzeVerbose: true
